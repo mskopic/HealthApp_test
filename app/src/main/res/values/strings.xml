@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">HealthApp_test</string>
+    <string name="action_settings">Settings</string>
+    <string name="trends_tab">Trends</string>
+    <string name="goals_tab">Goals</string>
+    <string name="schedule_tab">Schedule</string>
+</resources>
