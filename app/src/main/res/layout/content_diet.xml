@@ -12,7 +12,8 @@
         android:id="@+id/appBarLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -54,6 +55,16 @@
             tools:layout_editor_absoluteY="0dp" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <ListView
+        android:layout_width="395dp"
+        android:layout_height="394dp"
+        android:layout_marginBottom="8dp"
+        android:listSelector="@color/colorPrimary"
+        android:visibility="visible"
+        android:id="@+id/diet_goals"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionsMenu"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

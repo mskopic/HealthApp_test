@@ -11,6 +11,7 @@
 
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
@@ -55,5 +56,17 @@
             tools:layout_editor_absoluteY="0dp" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <ListView
+        android:id="@+id/ex_goals"
+        android:layout_width="392dp"
+        android:layout_height="394dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:listSelector="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionsMenu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout10"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,9 +1,9 @@
 package com.example.healthapp_test;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,6 +18,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import java.sql.Time;
 import java.util.ArrayList;
 
 
@@ -29,6 +32,9 @@ public class Set_Schedule extends AppCompatActivity {
     private SparseBooleanArray checked;
     public boolean am;
     public String time;
+    public SharedPreferences sharedPref;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +67,6 @@ public class Set_Schedule extends AppCompatActivity {
         }
 
 
-
-        // get time
-        EditText editText = (EditText) findViewById(R.id.editText2);
-        String time = editText.getText().toString();
-
         //list stuff
         list = (ListView) findViewById(R.id.listview);
         String[] listItem = getResources().getStringArray(R.array.days);
@@ -77,16 +78,14 @@ public class Set_Schedule extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 // TODO Auto-generated method stub
-
                 if(checked.get(position)) {
                     checked.append(position,false);
                     view.setSelected(false);
-                    Log.i("List","Deselecting item");
                 }
                 else if(!checked.get(position)) {
                     checked.append(position,true);
                     view.setSelected(true);
-                    Log.i("List","Selecting item");
+
                 }
 
             }
@@ -101,9 +100,6 @@ public class Set_Schedule extends AppCompatActivity {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter2);
 
-        //get time
-        EditText texttime = findViewById(R.id.editText2);
-        time = texttime.getText().toString();
 
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
@@ -123,6 +119,14 @@ public class Set_Schedule extends AppCompatActivity {
             }
         });
 
+
+        //if we already have created this, get preferences
+        boolean ac = intent.getBooleanExtra("already_created",false);
+       /* if(ac){
+            addOldDays(prev_act,checked,list);
+
+        }*/
+
     }
 
     public void set_days(View v){
@@ -131,13 +135,122 @@ public class Set_Schedule extends AppCompatActivity {
         for (int i = 0; i < checked.size(); i++) {
             // Item position in adapter
             int position = checked.keyAt(i);
-            // Add sport if it is checked i.e.) == TRUE!
+            // Add day if it is checked
             if (checked.valueAt(i))
                 schedule_days.add(adapter.getItem(position));
         }
 
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
+        Intent intent = getIntent();
+        String prev_act = intent.getStringExtra("Previous");
+        sharedPref = getSharedPreferences("Goals",Context.MODE_PRIVATE);
+
+        // get time
+        EditText editText = (EditText) findViewById(R.id.time);
+        time = editText.getText().toString();
+        String[] time_part = time.split(":");
+        int hour = Integer.parseInt(time_part[0]);
+        int minute = Integer.parseInt(time_part[1]);
+        boolean ac = intent.getBooleanExtra("already_created",false);
+
+        //change message based off of activity that led us here
+        if(prev_act.equals("Sleep")){
+        }
+        else if(prev_act.equals("Meal")){
+            if(ac){
+                Log.i("Schedule","Old Goal");
+                //create meal
+                Meal_Goal me = new Meal_Goal();
+                me.setLow(intent.getIntExtra("low",0));
+                me.setHigh(intent.getIntExtra("high",0));
+                me.setName(intent.getStringExtra("name"));
+                me.days = (schedule_days);
+                me.setTime(new Time(hour, minute, 0));
+                //get diet meal is a part of
+                me.setDiet(intent.getStringExtra("diet_num"));
+                String json = sharedPref.getString(me.getDiet(), "");
+                Gson gson = new Gson();
+                Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
+                //set meal at position where old meal is to new meal with updates
+                int position = intent.getIntExtra("saved_meal",0);
+                d.meals.set(position,me);
+
+                //update value of diet according to its key
+                String json_back = gson.toJson(d);
+                SharedPreferences.Editor prefsEditor = sharedPref.edit();
+                prefsEditor.putString(me.getDiet(), json_back);
+                prefsEditor.commit();
+            }
+            else {
+                //create meal
+                Meal_Goal me = new Meal_Goal();
+                me.setLow(intent.getIntExtra("low",0));
+                me.setHigh(intent.getIntExtra("high",0));
+                me.setName(intent.getStringExtra("name"));
+                me.setDiet(intent.getStringExtra("diet_num"));
+                me.days = (schedule_days);
+                me.setTime(new Time(hour, minute, 0));
+
+                //get diet meal belongs to
+                String json = sharedPref.getString(me.getDiet(), "");
+                Gson gson = new Gson();
+                Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
+                //add meal to diet
+                d.meals.add(me);
+                //update value of diet according to its key
+                String json_back = gson.toJson(d);
+                SharedPreferences.Editor prefsEditor = sharedPref.edit();
+                prefsEditor.putString(me.getDiet(), json_back);
+                prefsEditor.commit();
+            }
+        }
+        else if(prev_act.equals("Exercise")){
+            if(ac){
+                String saved_ex = intent.getStringExtra("saved_ex");
+                String json = sharedPref.getString(saved_ex, "");
+                Gson gson = new Gson();
+                Exercise_Goal eg = gson.fromJson(json, Exercise_Goal.class);
+                eg.setEx_name(intent.getStringExtra("ex_name"));
+                eg.setEx_type(intent.getStringExtra("ex_type"));
+                eg.setEx_intensity(intent.getIntExtra("ex_intensity",0));
+                eg.days = schedule_days;
+                eg.setTime(new Time(hour,minute,0));
+                String json_back = gson.toJson(eg);
+
+                SharedPreferences.Editor prefsEditor = sharedPref.edit();
+                prefsEditor.putString(saved_ex, json_back);
+                prefsEditor.commit();
+
+            }
+            else{
+                Exercise_Goal eg = new Exercise_Goal();
+                eg.setEx_name(intent.getStringExtra("ex_name"));
+                eg.setEx_type(intent.getStringExtra("ex_type"));
+                eg.setEx_intensity(intent.getIntExtra("ex_intensity",0));
+                eg.days = (schedule_days);
+                eg.setTime(new Time(hour,minute,0));
+
+                SharedPreferences.Editor prefsEditor = sharedPref.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(eg);
+
+                int num_ex_goal = sharedPref.getInt("num_ex_goals",0);
+                String name = "exercise_goal"+num_ex_goal;
+                prefsEditor.putString(name, json);
+                num_ex_goal++;
+                prefsEditor.putInt("num_ex_goals",num_ex_goal);
+                prefsEditor.commit();
+
+            }
+
+
+
+        }
+        else if(prev_act.equals("Meditation")){
+        }
+
+
+        Intent done = new Intent(this,MainActivity.class);
+        startActivity(done);
     }
 
     // have to override so back button takes us to right activity
@@ -152,6 +265,34 @@ public class Set_Schedule extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void addOldDays(String prev_act,SparseBooleanArray checked, ListView list){
+        EditText time = findViewById(R.id.time);
+        Intent intent = getIntent();
+        ArrayList<String> days = new ArrayList<String>();
+        if(prev_act.equals("Sleep")){
+        }
+        else if(prev_act.equals("Meal")){
+        }
+        else if(prev_act.equals("Exercise")){
+            String saved_goal = intent.getStringExtra("saved_ex");
+            sharedPref.getString(saved_goal,"");
+            String json = sharedPref.getString(saved_goal, "");
+            Gson gson = new Gson();
+            Exercise_Goal eg = gson.fromJson(json, Exercise_Goal.class);
+            days = eg.days;
+
+        }
+        else if(prev_act.equals("Meditation")){
+        }
+
+        for(int i = 0;i<days.size();i++){
+            checked.append(i,true);
+
+        }
+
+    }
+
 
 
 

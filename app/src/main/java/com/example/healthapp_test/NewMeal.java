@@ -18,6 +18,7 @@ public class NewMeal extends AppCompatActivity {
     public int low;
     public int high;
     public int meal_size;
+    public String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +79,16 @@ public class NewMeal extends AppCompatActivity {
     public void set_schedule(View v){
         Intent schedule = new Intent(this, Set_Schedule.class);
         schedule.putExtra("Previous","Meal");
+
+        //send meal name, low, high and diet name to set_schedule, should be instantiated there
+        EditText editText = findViewById(R.id.meal_name);
+        name = editText.getText().toString();
+        schedule.putExtra("diet_num",getIntent().getStringExtra("diet_num"));
+        schedule.putExtra("low",low);
+        schedule.putExtra("high",high);
+        schedule.putExtra("name",name);
+        schedule.putExtra("already_created",getIntent().getStringExtra("already_created"));
+        schedule.putExtra("saved_meal",getIntent().getIntExtra("saved_meal",0));
         startActivity(schedule);
 
     }

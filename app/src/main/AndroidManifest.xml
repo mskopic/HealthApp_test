@@ -70,6 +70,7 @@
         <activity
             android:name=".Exercise_Intensity"
             android:label="Exercise Intensity"
+            android:launchMode="singleTop"
             android:parentActivityName=".NewEx">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -78,6 +79,7 @@
         <activity
             android:name=".NewEx"
             android:label="New Exercise"
+            android:launchMode="singleTop"
             android:parentActivityName=".Exercise">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
