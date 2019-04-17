@@ -30,7 +30,7 @@ public class Meal extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String diet_name = getIntent().getStringExtra("diet_plan_name");
+        final String diet_name = getIntent().getStringExtra("diet_plan_name");
         diet_num = getIntent().getStringExtra("diet_num");
         getSupportActionBar().setTitle(diet_name + " Meals");
 
@@ -49,11 +49,12 @@ public class Meal extends AppCompatActivity {
             ListView list = (ListView) findViewById(R.id.my_meals);
             final ArrayList<String> meal_goals_names = new ArrayList<String>();
 
+            //make listview of meal names
             for(int i = 0;i<meal_goals.size();i++){
                 meal_goals_names.add(meal_goals.get(i).getName());
             }
 
-            // list stuff
+            // list stuff - on click should take you to meal
             final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, android.R.id.text1, meal_goals_names);
             list.setAdapter(adapter);
@@ -65,12 +66,13 @@ public class Meal extends AppCompatActivity {
                     Intent new_meal = new Intent(view.getContext(),NewMeal.class);
                     new_meal.putExtra("already_created",true);
                     new_meal.putExtra("saved_meal",position);
+                    new_meal.putExtra("diet_num",diet_num);
+                    new_meal.putExtra("diet_plan_name",diet_name);
                     startActivity(new_meal);
 
                 }
             });
         }
-
 
 
 
@@ -80,10 +82,13 @@ public class Meal extends AppCompatActivity {
     public void new_meal(View v){
         Intent new_meal = new Intent(this,NewMeal.class);
         new_meal.putExtra("diet_num",diet_num);
+        new_meal.putExtra("diet_plan_name", getIntent().getStringExtra("diet_plan_name"));
         startActivity(new_meal);
 
 
     }
+
+
 
 
 }

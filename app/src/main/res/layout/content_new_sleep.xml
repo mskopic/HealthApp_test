@@ -12,7 +12,8 @@
         android:id="@+id/appBarLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -37,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout5" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/hours_sleep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

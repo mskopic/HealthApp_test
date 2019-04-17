@@ -8,10 +8,22 @@
     tools:context=".Sleep"
     tools:showIn="@layout/activity_sleep">
 
+    <ListView
+        android:id="@+id/sleep_goals"
+        android:layout_width="395dp"
+        android:layout_height="392dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionsMenu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout13" />
+
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout13"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

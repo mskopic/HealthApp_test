@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -51,8 +52,9 @@ public class Exercise_Intensity extends AppCompatActivity {
         }
         //list stuff
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, listItem);
+                R.layout.my_list, listItem);
         list.setAdapter(adapter);
+        list.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -70,7 +72,8 @@ public class Exercise_Intensity extends AppCompatActivity {
             String json = sharedPref.getString(saved_ex, "");
             Gson gson = new Gson();
             Exercise_Goal e = gson.fromJson(json, Exercise_Goal.class);
-            list.setSelection(e.getEx_intensity());
+            list.setItemChecked(e.getEx_intensity(),true);
+            ex_intensity = e.getEx_intensity();
 
         }
 
@@ -84,6 +87,7 @@ public class Exercise_Intensity extends AppCompatActivity {
         schedule.putExtra("already_created",ac);
         //if already created, add name of exercise we stored in sharedPreferences
         if(ac) {
+            Log.i("saved_ex - intensity",getIntent().getStringExtra("saved_ex"));
             schedule.putExtra("saved_ex", getIntent().getStringExtra("saved_ex"));
         }
 

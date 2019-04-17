@@ -8,10 +8,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -25,10 +29,12 @@ public class DietMacros extends AppCompatActivity {
     public String plan_name;
     public boolean ac;
     private EditText edit_cals;
-    private EditText edit_lbs;
+    private TextView edit_lbs;
     private EditText edit_carbs;
     private EditText edit_protein;
     private EditText edit_fat;
+    private Boolean machine_changed_edittext = false;
+
 
 
     @Override
@@ -44,10 +50,160 @@ public class DietMacros extends AppCompatActivity {
 
 
         edit_cals = (EditText) findViewById(R.id.calories);
-        edit_lbs = (EditText) findViewById(R.id.lbs_week);
+        edit_cals.setFilters(new InputFilter[]{new InputFilterMinMax("0", "3000")});
+        edit_cals.addTextChangedListener(new TextWatcher() {
+            String before;
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+                if (s.length() > 0) {
+                    if (!machine_changed_edittext) {
+                        machine_changed_edittext = true;
+                        Log.i("editing", "editing cals");
+                        int cals = Integer.parseInt(s.toString());
+                        double lbs = (cals - 1800) / 500.0;
+                        edit_lbs.setText(String.valueOf(lbs));
+                    }
+                    machine_changed_edittext = false;
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    if (!machine_changed_edittext) {
+                        machine_changed_edittext = true;
+                        Log.i("editing", "editing calories");
+                        int cals = Integer.parseInt(s.toString());
+                        double lbs = (cals - 1800) / 500.0;
+                        Log.i("lbs should be", lbs + "");
+                        edit_lbs.setText(String.valueOf(lbs));
+                    }
+                    machine_changed_edittext = false;
+                }
+            }
+        });
+
+        edit_lbs = findViewById(R.id.lbs_week);
+
         edit_carbs = (EditText )findViewById(R.id.carbs);
+        edit_carbs.setFilters(new InputFilter[]{new InputFilterMinMax("0", "250")});
+        edit_carbs.addTextChangedListener(new TextWatcher() {
+            public int before;
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+                if (s.length() > 0) {
+                    if (!machine_changed_edittext) {
+                        machine_changed_edittext = true;
+                        Log.i("editing", "editing carbs");
+                        Log.i("before = ", before + "");
+                        int carbs = Integer.parseInt(s.toString());
+                        int cals = Integer.parseInt(edit_cals.getText().toString());
+                        cals += (carbs-before) * 4;
+                        edit_cals.setText(String.valueOf(cals));
+                        double lbs = (cals - 1800) / 500.0;
+                        edit_lbs.setText(String.valueOf(lbs));
+                    }
+                    machine_changed_edittext = false;
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+                if(s.length() > 0)
+                    before = Integer.parseInt(s.toString());
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+
         edit_protein = (EditText) findViewById(R.id.protein);
+        edit_protein.setFilters(new InputFilter[]{new InputFilterMinMax("0", "250")});
+        edit_protein.addTextChangedListener(new TextWatcher() {
+            private int before;
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+                if (s.length() > 0) {
+                    if (!machine_changed_edittext) {
+                        machine_changed_edittext = true;
+                        Log.i("editing", "editing carbs");
+                        int protein = Integer.parseInt(s.toString());
+                        int cals = Integer.parseInt(edit_cals.getText().toString());
+                        cals += (protein-before) * 4;
+                        edit_cals.setText(String.valueOf(cals));
+                        double lbs = (cals - 1800) / 500.0;
+                        edit_lbs.setText(String.valueOf(lbs));
+                    }
+                    machine_changed_edittext = false;
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+                if(s.length() > 0){
+                    before = Integer.parseInt(s.toString());
+                }
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
         edit_fat = (EditText) findViewById(R.id.fats);
+        edit_fat.setFilters(new InputFilter[]{new InputFilterMinMax("0", "250")});
+        edit_fat.addTextChangedListener(new TextWatcher() {
+            private int before;
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+                if (s.length() > 0) {
+                    if (!machine_changed_edittext) {
+                        machine_changed_edittext = true;
+                        Log.i("editing", "editing carbs");
+                        int fat = Integer.parseInt(s.toString());
+                        int cals = Integer.parseInt(edit_cals.getText().toString());
+                        cals += (fat-before) * 8;
+                        edit_cals.setText(String.valueOf(cals));
+                        double lbs = (cals - 1800) / 500.0;
+                        edit_lbs.setText(String.valueOf(lbs));
+                    }
+                    machine_changed_edittext = false;
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+                if(s.length() > 0){
+                    before = Integer.parseInt(s.toString());
+                }
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
 
         Intent intent = getIntent();
         plan_name = intent.getStringExtra("diet_plan_name");
@@ -68,6 +224,7 @@ public class DietMacros extends AppCompatActivity {
 
 
     }
+
 
     public void set_diet(View v){
         //get data
@@ -120,5 +277,7 @@ public class DietMacros extends AppCompatActivity {
         startActivity(set_diet);
 
     }
+
+
 
 }

@@ -24,15 +24,15 @@ public class NewSleep extends AppCompatActivity {
         //keyboard
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-
-        EditText editText = (EditText) findViewById(R.id.editText3);
-        hours = editText.getText().toString();
-
     }
 
     public void set_schedule(View v){
+        EditText editText = (EditText) findViewById(R.id.hours_sleep);
+        hours = editText.getText().toString();
+
         Intent schedule = new Intent(this, Set_Schedule.class);
         schedule.putExtra("Previous","Sleep");
+        schedule.putExtra("hours_sleep",hours);
         startActivity(schedule);
 
     }

@@ -63,7 +63,6 @@
         android:layout_height="394dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:listSelector="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/floatingActionsMenu"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout10"

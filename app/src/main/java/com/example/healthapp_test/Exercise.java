@@ -59,7 +59,9 @@ public class Exercise extends AppCompatActivity {
                         Exercise_Goal chosen_goal = ex_goals.get(position);
                         Intent new_ex = new Intent(view.getContext(),NewEx.class);
                         new_ex.putExtra("already_created",true);
-                        new_ex.putExtra("saved_ex","exercise_goal"+position);
+                        String old_ex = "exercise_goal"+position;
+                        new_ex.putExtra("saved_ex",old_ex);
+                        Log.i("saved_ex",old_ex);
                         startActivity(new_ex);
 
                     }

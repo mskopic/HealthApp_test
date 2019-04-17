@@ -1,9 +1,9 @@
 package com.example.healthapp_test;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -32,9 +32,7 @@ public class Mood extends AppCompatActivity {
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter2);
 
-        // get time of day
-        EditText texttime = findViewById(R.id.editText5);
-        time = texttime.getText().toString();
+
         // get am/pm
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
@@ -61,7 +59,23 @@ public class Mood extends AppCompatActivity {
     }
     public void back_to_main(View view){
         Intent main = new Intent(this,MainActivity.class);
+        // get time of day
+        EditText texttime = findViewById(R.id.time);
+        time = texttime.getText().toString();
+        String[] time_part = time.split(":");
+        int hour = Integer.parseInt(time_part[0]);
+        int minute = Integer.parseInt(time_part[1]);
+        if(am == false){
+            hour = hour + 12;
+        }
+        SharedPreferences sharedPref = getSharedPreferences("Goals", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sharedPref.edit();
+        prefsEditor.putInt("mood_hour",hour);
+        prefsEditor.putInt("mood_minute",minute);
+        prefsEditor.commit();
+
         startActivity(main);
+
 
     }
 

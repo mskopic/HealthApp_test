@@ -8,7 +8,7 @@ public class Meal_Goal {
     public int high;
     public String name;
     public String diet;
-    public ArrayList<String> days;
+    public ArrayList<Integer> days = new ArrayList<Integer>();
     private Time time;
     public String getDiet() {
         return diet;
@@ -48,5 +48,13 @@ public class Meal_Goal {
 
     public void setTime(Time time) {
         this.time = time;
+    }
+
+    public ArrayList<Integer> getDays() {
+        return days;
+    }
+
+    public void setDays(ArrayList<Integer> days) {
+        this.days = days;
     }
 }

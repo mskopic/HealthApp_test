@@ -9,7 +9,7 @@ public class Exercise_Goal {
     private String ex_type;
     private int ex_intensity;
 
-    public ArrayList<String> days;
+    public ArrayList<Integer> days;
     private Time time;
 
     public String getEx_name() {
@@ -46,5 +46,11 @@ public class Exercise_Goal {
     }
 
 
+    public ArrayList<Integer> getDays() {
+        return days;
+    }
 
+    public void setDays(ArrayList<Integer> days) {
+        this.days = days;
+    }
 }

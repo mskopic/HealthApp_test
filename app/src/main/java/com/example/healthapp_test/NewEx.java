@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -41,8 +42,9 @@ public class NewEx extends AppCompatActivity {
 
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, listItem);
+                R.layout.my_list, listItem);
         list.setAdapter(adapter);
+        list.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -64,10 +66,14 @@ public class NewEx extends AppCompatActivity {
             EditText et  = (EditText) findViewById(R.id.plan_name);
             et.setText(e.getEx_name());
 
-            if(e.getEx_type().equals("Cardio"))
-                list.setSelection(0);
-            else
-                list.setSelection(1);
+            if(e.getEx_type().equals("Cardio")) {
+                list.setItemChecked(0, true);
+                ex_type = "Cardio";
+            }
+            else {
+                list.setItemChecked(1, true);
+                ex_type = "Weight Training";
+            }
 
 
         }
@@ -84,6 +90,7 @@ public class NewEx extends AppCompatActivity {
        new_ex.putExtra("ex_name", plan_name);
        new_ex.putExtra("already_created",ac);
        if(ac) {
+           Log.i("saved_ex - new",getIntent().getStringExtra("saved_ex"));
            new_ex.putExtra("saved_ex", getIntent().getStringExtra("saved_ex"));
        }
 
