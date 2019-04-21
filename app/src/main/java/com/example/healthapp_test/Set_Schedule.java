@@ -216,11 +216,18 @@ public class Set_Schedule extends AppCompatActivity {
         }
 
         //set time
+        Spinner ampm = findViewById(R.id.ampm_spinner);
         if(hours > 12) {
             hours = hours - 12;
+            ampm.setSelection(1,true);
+
+        }
+        else{
+            ampm.setSelection(0,true);
         }
         if(minutes == 0) {
             time.setText(hours + ":" + minutes+"0");
+
         }
         else{
             time.setText(hours + ":" + minutes);

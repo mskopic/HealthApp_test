@@ -211,7 +211,8 @@ public class DietMacros extends AppCompatActivity {
         if(ac){
             SharedPreferences sharedPref = getSharedPreferences("Goals", Context.MODE_PRIVATE);
             //saved_diet is already made diet in json form
-            String saved_diet = intent.getStringExtra("saved_diet");
+            String saved_diet = intent.getStringExtra("diet_num");
+            Log.i("diet_num",saved_diet);
             String json = sharedPref.getString(saved_diet, "");
             Gson gson = new Gson();
             Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
@@ -255,9 +256,10 @@ public class DietMacros extends AppCompatActivity {
         //go to meals
         Intent set_diet = new Intent(this, Meal.class);
         set_diet.putExtra("diet_plan_name", plan_name);
+        set_diet.putExtra("previous","diet_macros");
         // if an edit of a previous goal
         if(ac){
-            String diet_num = getIntent().getStringExtra("saved_diet");
+            String diet_num = getIntent().getStringExtra("diet_num");
             prefsEditor.putString(diet_num, json_back);
             prefsEditor.commit();
             //let us know what diet we have when making meals

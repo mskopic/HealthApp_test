@@ -13,7 +13,7 @@ import android.widget.EditText;
 public class NewSleep extends AppCompatActivity {
 
 
-    public String hours;
+    public int hours;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +28,7 @@ public class NewSleep extends AppCompatActivity {
 
     public void set_schedule(View v){
         EditText editText = (EditText) findViewById(R.id.hours_sleep);
-        hours = editText.getText().toString();
+        hours = Integer.parseInt(editText.getText().toString());
 
         Intent schedule = new Intent(this, Set_Schedule.class);
         schedule.putExtra("Previous","Sleep");

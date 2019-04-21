@@ -63,6 +63,7 @@ public class Diet extends AppCompatActivity {
                     new_diet.putExtra("already_created",true);
                     new_diet.putExtra("diet_num","diet_goal"+position);
                     new_diet.putExtra("diet_plan_name", chosen_goal.getDiet_name());
+                    new_diet.putExtra("previous","diet");
                     startActivity(new_diet);
 
                 }
