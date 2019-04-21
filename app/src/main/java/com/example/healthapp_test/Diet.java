@@ -17,7 +17,6 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Diet extends AppCompatActivity {
 
@@ -32,24 +31,20 @@ public class Diet extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //make list of previous diets
         SharedPreferences sp = getSharedPreferences("Goals", Context.MODE_PRIVATE);
-        SharedPreferences spUser = getSharedPreferences("user_details", Context.MODE_PRIVATE);
-        Gson newGson = new Gson();
-        UserDetails currUser = newGson.fromJson(spUser.getString("user","null"),UserDetails.class);
-
-        //int num_diet_goals = sp.getInt("num_diet_goals",0);
+        int num_diet_goals = sp.getInt("num_diet_goals",0);
 
 
         //if we already have exercise goals made
-        if(currUser.diet_goals.size() > 0) {
+        if(num_diet_goals > 0) {
             ListView list = (ListView) findViewById(R.id.diet_goals);
             final ArrayList<Diet_Goal> diet_goals = new ArrayList<Diet_Goal>();
             final ArrayList<String> diet_goals_names = new ArrayList<String>();
-            Gson dietgson = new Gson();
+            Gson gson = new Gson();
 
-            for(int i = 0;i<currUser.diet_goals.size();i++){
+            for(int i = 0;i<num_diet_goals;i++){
                 String name = "diet_goal"+i;
-                //String json = sp.getString(name, "");
-                Diet_Goal d = currUser.diet_goals.get(i);
+                String json = sp.getString(name, "");
+                Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
                 diet_goals.add(d);
                 diet_goals_names.add(d.getDiet_name());
             }
@@ -66,7 +61,7 @@ public class Diet extends AppCompatActivity {
                     Diet_Goal chosen_goal = diet_goals.get(position);
                     Intent new_diet = new Intent(view.getContext(),Meal.class);
                     new_diet.putExtra("already_created",true);
-                    new_diet.putExtra("diet_num",position);
+                    new_diet.putExtra("diet_num","diet_goal"+position);
                     new_diet.putExtra("diet_plan_name", chosen_goal.getDiet_name());
                     startActivity(new_diet);
 
@@ -80,6 +75,5 @@ public class Diet extends AppCompatActivity {
         new_diet.putExtra("already_created",false);
         startActivity(new_diet);
     }
-
 
 }
