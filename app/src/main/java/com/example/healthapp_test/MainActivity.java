@@ -1,5 +1,8 @@
 package com.example.healthapp_test;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        SharedPreferences sharedPref = getSharedPreferences("Goals",Context.MODE_PRIVATE);
     }
 
 
@@ -56,4 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

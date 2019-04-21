@@ -10,6 +10,118 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".NewMeal"
+            android:label="@string/title_activity_new_meal"
+            android:parentActivityName=".Meal"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.Meal" />
+
+        </activity>
+        <activity
+            android:name=".Meal"
+            android:label="@string/title_activity_meal"
+            android:parentActivityName=".DietMacros"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.DietMacros" />
+        </activity>
+        <activity
+            android:name=".DietMacros"
+            android:label="@string/title_activity_diet_macros"
+            android:parentActivityName=".DietPlan"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.DietPlan" />
+        </activity>
+        <activity
+            android:name=".DietPlan"
+            android:label="@string/title_activity_diet_plan"
+            android:parentActivityName=".Diet"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.Diet" />
+        </activity>
+        <activity
+            android:name=".NewSleep"
+            android:label="@string/title_activity_new_sleep"
+            android:parentActivityName=".Sleep"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.Sleep" />
+        </activity>
+        <activity
+            android:name=".NewMed"
+            android:label="@string/title_activity_new_med"
+            android:parentActivityName=".Meditation"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.Meditation" />
+        </activity>
+        <activity
+            android:name=".Set_Schedule"
+            android:label="Schedule" />
+        <activity
+            android:name=".Exercise_Intensity"
+            android:label="Exercise Intensity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".NewEx">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.NewEx" />
+        </activity>
+        <activity
+            android:name=".NewEx"
+            android:label="New Exercise"
+            android:launchMode="singleTop"
+            android:parentActivityName=".Exercise">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.Exercise" />
+        </activity>
+        <activity
+            android:name=".Mood"
+            android:label="Mood"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Sleep"
+            android:label="Sleep"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Meditation"
+            android:label="Meditation"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Diet"
+            android:label="Diet"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Exercise"
+            android:label="Exercise"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.MainActivity" />
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>

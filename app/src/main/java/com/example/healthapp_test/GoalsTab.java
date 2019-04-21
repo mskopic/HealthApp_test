@@ -1,12 +1,21 @@
 package com.example.healthapp_test;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -17,7 +26,7 @@ import android.view.ViewGroup;
  * Use the {@link GoalsTab#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GoalsTab extends Fragment {
+public class GoalsTab extends Fragment implements MyRecyclerViewAdapter.ItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,6 +37,7 @@ public class GoalsTab extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    MyRecyclerViewAdapter adapter;
 
     public GoalsTab() {
         // Required empty public constructor
@@ -54,17 +64,42 @@ public class GoalsTab extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_goals_tab, container, false);
+        View view = inflater.inflate(R.layout.fragment_goals_tab, container, false);
+
+        // data to populate the RecyclerView with
+        ArrayList<String> goalNames = new ArrayList<>();
+        goalNames.add("Diet");
+        goalNames.add("Exercise");
+        goalNames.add("Sleep");
+        goalNames.add("Mood");
+        goalNames.add("Meditation");
+
+        // set up the RecyclerView
+        RecyclerView recyclerView = view.findViewById(R.id.my_goals);
+        LinearLayoutManager lm = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(lm);
+        adapter = new MyRecyclerViewAdapter(getActivity(), goalNames);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+        getActivity().setTitle("Goals");
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), lm.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,4 +139,36 @@ public class GoalsTab extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void onItemClick(View view, int position){
+        switch (position){
+            case 0:
+                Intent diet = new Intent(getActivity(),Diet.class);
+                startActivity(diet);
+                break;
+            case 1:
+                Intent ex = new Intent(getActivity(),Exercise.class);
+                startActivity(ex);
+                break;
+            case 2:
+                Intent sleep = new Intent(getActivity(),Sleep.class);
+                startActivity(sleep);
+                break;
+            case 3:
+                Intent mood = new Intent(getActivity(),Mood.class);
+                startActivity(mood);
+                break;
+            case 4:
+                Intent med = new Intent(getActivity(),Meditation.class);
+                startActivity(med);
+                break;
+
+        }
+
+    }
+
+
+
+
+
 }
