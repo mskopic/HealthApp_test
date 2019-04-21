@@ -4,9 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,6 +23,13 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ScheduleTab extends Fragment {
+
+    View v;
+    private RecyclerView myRecyclerView;
+    private List<Schedule> firstContact;
+
+
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -58,13 +70,25 @@ public class ScheduleTab extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        firstContact = new ArrayList<>();
+        firstContact.add(new Schedule("Lunch", "2:00pm", R.drawable.diet));
+        firstContact.add(new Schedule("Exercise", "4:00pm", R.drawable.exercise));
+        firstContact.add(new Schedule("Dinner", "7:00pm", R.drawable.diet));
+        firstContact.add(new Schedule("Mood", "9:00pm", R.drawable.mood));
+        firstContact.add(new Schedule("Sleep", "11:00pm", R.drawable.sleep));
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_schedule_tab, container, false);
+        v = inflater.inflate(R.layout.fragment_schedule_tab, container, false);
+        myRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
+        RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(getContext(), firstContact);
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        myRecyclerView.setAdapter(recyclerAdapter);
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

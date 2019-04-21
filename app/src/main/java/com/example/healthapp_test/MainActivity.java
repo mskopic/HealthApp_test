@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
         SharedPreferences sharedPref = getSharedPreferences("Goals",Context.MODE_PRIVATE);
     }
 
