@@ -3,6 +3,7 @@ package com.example.healthapp_test;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -61,12 +62,18 @@ public class MainActivity extends AppCompatActivity {
         if(u.isEmpty()||p.isEmpty()){
             TextView error = findViewById(R.id.error);
             error.setText("Invalid Login. Please Enter All Fields!");
+            error.setTextColor(Color.RED);
+
         }else if(!dummyCredentials.containsKey(u)){
             TextView error = findViewById(R.id.error);
             error.setText("Invalid Login. Username not found!");
+            error.setTextColor(Color.RED);
+
         }else if(!dummyCredentials.get(u).equals(p)){
             TextView error = findViewById(R.id.error);
             error.setText("Invalid Login. Password entered not associated with Username!");
+            error.setTextColor(Color.RED);
+
         } else{
             Intent newIntent = new Intent(this,TabsActivity.class);
             newIntent.putExtra("username", u.trim());
@@ -85,9 +92,12 @@ public class MainActivity extends AppCompatActivity {
         if(u.isEmpty()||p.isEmpty()){
             TextView error = findViewById(R.id.error);
             error.setText("Invalid Sign-up. Please Enter All Fields!");
+            error.setTextColor(Color.RED);
         }else if(dummyCredentials.containsKey(u)){
             TextView error = findViewById(R.id.error);
             error.setText("Invalid Sign-up. Username exists already!");
+            error.setTextColor(Color.RED);
+
         }else{
             Intent newIntent = new Intent(this,UserSignUp.class);
             newIntent.putExtra("username", u.trim());
