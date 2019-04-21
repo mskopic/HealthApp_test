@@ -13,30 +13,87 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.util.HashMap;
+import com.example.healthapp_test.UserDetails;
 
 public class MainActivity extends AppCompatActivity {
+
+    public HashMap<String, String> dummyCredentials = new HashMap(){
+        {
+            put("u", "p");
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Set the content of the activity to use the  activity_main.xml layout file
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_welcome);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Welcome to Health App!");
 
-        // Find the view pager that will allow the user to swipe between fragments
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        SharedPreferences user = getSharedPreferences("user_details",Context.MODE_PRIVATE);
+        SharedPreferences.Editor userEdit = user.edit();
+        Gson gson = new Gson();
+        String s = user.getString("credentials", "");
+        if(s.equals("null")){
+            userEdit.putString("credentials",gson.toJson(dummyCredentials));
+            userEdit.commit();
+        }
 
-        // Create an adapter that knows which fragment should be shown on each page
-        TabsAdapter adapter = new TabsAdapter(this, getSupportFragmentManager());
+    }
 
-        // Set the adapter onto the view pager
-        viewPager.setAdapter(adapter);
+    public void login(View v){
+        EditText username = findViewById(R.id.username);
+        EditText password = findViewById(R.id.password);
 
-        // Give the TabLayout the ViewPager
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        String u = username.getText().toString();
+        String p = password.getText().toString();
 
-        SharedPreferences sharedPref = getSharedPreferences("Goals",Context.MODE_PRIVATE);
+        if(u.isEmpty()||p.isEmpty()){
+            TextView error = findViewById(R.id.error);
+            error.setText("Invalid Login. Please Enter All Fields!");
+        }else if(!dummyCredentials.containsKey(u)){
+            TextView error = findViewById(R.id.error);
+            error.setText("Invalid Login. Username not found!");
+        }else if(!dummyCredentials.get(u).equals(p)){
+            TextView error = findViewById(R.id.error);
+            error.setText("Invalid Login. Password entered not associated with Username!");
+        } else{
+            Intent newIntent = new Intent(this,TabsActivity.class);
+            newIntent.putExtra("username", u.trim());
+            startActivity(newIntent);
+        }
+
+    }
+
+    public void signup(View view) {
+        EditText username = findViewById(R.id.username);
+        EditText password = findViewById(R.id.password);
+
+        String u = username.getText().toString();
+        String p = password.getText().toString();
+
+        if(u.isEmpty()||p.isEmpty()){
+            TextView error = findViewById(R.id.error);
+            error.setText("Invalid Sign-up. Please Enter All Fields!");
+        }else if(dummyCredentials.containsKey(u)){
+            TextView error = findViewById(R.id.error);
+            error.setText("Invalid Sign-up. Username exists already!");
+        }else{
+            Intent newIntent = new Intent(this,UserSignUp.class);
+            newIntent.putExtra("username", u.trim());
+            newIntent.putExtra("password", p.trim());
+            startActivity(newIntent);
+        }
     }
 
 
