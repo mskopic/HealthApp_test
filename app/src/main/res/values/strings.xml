@@ -6,5 +6,90 @@
     <string name="schedule_tab">Schedule</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_exercise">Exercise</string>
+    <string name="title_activity_diet">Diet</string>
+    <string name="title_activity_meditation">Meditation</string>
+    <string name="title_activity_sleep">Sleep</string>
+    <string name="title_activity_mood">Mood</string>
+    <string name="title_activity_new_ex">NewEx</string>
+
+
+    <string-array name="exercise_choices">
+        <item>Cardio</item>
+        <item>Weight Training</item>
+    </string-array>
+
+    <string-array name="weight_intensity">
+        <item>Light (50-100 cals)</item>
+        <item>Moderate (100-200 cals)</item>
+        <item>Intense (200-400 cals)</item>
+    </string-array>
+
+    <string-array name="cardio_intensity">
+        <item>Light (0-5 mph)</item>
+        <item>Moderate (5-10 mph)</item>
+        <item>Intense (10+ mph)</item>
+    </string-array>
+
+    <string-array name="meditation_choices">
+        <item>Guided-Beginner</item>
+        <item>Guided-Intermediate</item>
+        <item>Unguided</item>
+    </string-array>
+
+    <string-array name="meal_sizes">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Custom</item>
+    </string-array>
+
+    <string-array name="days">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+    <string-array name="diets">
+        <item>Balanced</item>
+        <item>Low Carb</item>
+        <item>Low Fat</item>
+        <item>Keto</item>
+        <item>Mediterranean</item>
+        <item>Vegetarian</item>
+        <item>Vegan</item>
+    </string-array>
+
+    <string-array name="times">
+        <item>12:00</item>
+        <item>1:00</item>
+        <item>2:00</item>
+        <item>3:00</item>
+        <item>4:00</item>
+        <item>5:00</item>
+        <item>6:00</item>
+        <item>7:00</item>
+        <item>8:00</item>
+        <item>9:00</item>
+        <item>10:00</item>
+        <item>11:00</item>
+    </string-array>
+
+    <string-array name="ampm">
+        <item>AM</item>
+        <item>PM</item>
+    </string-array>
+    <string name="title_activity_weight">Weight</string>
+    <string name="title_activity_cardio">Cardio</string>
+    <string name="title_activity_set__schedule">Set_Schedule</string>
+    <string name="title_activity_new_med">NewMed</string>
+    <string name="title_activity_new_sleep">NewSleep</string>
+    <string name="title_activity_diet_plan">DietPlan</string>
+    <string name="title_activity_diet_macros">DietMacros</string>
+    <string name="title_activity_meal">Meal</string>
+    <string name="title_activity_new_meal">NewMeal</string>
 </resources>
