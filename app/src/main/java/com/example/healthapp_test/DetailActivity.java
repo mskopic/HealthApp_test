@@ -23,7 +23,7 @@ public class DetailActivity extends AppCompatActivity {
             TextView task_type;
             if(text.trim().equals("Lunch")){
                 task_type = (TextView) findViewById(R.id.task_type);
-                String textTask = "Diet Plan: Intermittent Fasting";
+                String textTask = "Diet Plan: Keto";
                 task_type.setText(textTask);
 
                 task_description = (TextView) findViewById(R.id.task_description);
@@ -41,21 +41,11 @@ public class DetailActivity extends AppCompatActivity {
 
             } else if(text.trim().equals("Dinner")){
                 task_type = (TextView) findViewById(R.id.task_type);
-                String textTask = "Diet Plan: Intermittent Fasting";
+                String textTask = "Diet Plan: Keto";
                 task_type.setText(textTask);
 
                 task_description = (TextView) findViewById(R.id.task_description);
                 String textDescription = "Diet plan that you have selected. Check the Goals tab to make changes.";
-                task_description.setText(textDescription);
-
-            } else if(text.trim().equals("Mood")){
-                task_type = (TextView) findViewById(R.id.task_type);
-                String textTask = "How was your day?";
-                task_type.setText(textTask);
-                // maybe have scroll bar or radio button/Likert Scale
-
-                task_description = (TextView) findViewById(R.id.task_description);
-                String textDescription = "Check in to see what your overall mood was for today.";
                 task_description.setText(textDescription);
 
             } else if(text.trim().equals("Sleep")){

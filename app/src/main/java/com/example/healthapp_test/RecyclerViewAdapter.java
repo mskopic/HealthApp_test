@@ -59,9 +59,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 dialog_btn_call.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        Intent startIntent = new Intent(mContext, DetailActivity.class);
-                        startIntent.putExtra("com.example.healthapp_test_DETAILS",  " " + mData.get(vHolder.getAdapterPosition()).getName());
-                        mContext.startActivity(startIntent);
+                        TextView dialog_name_id = (TextView) vHolder.item_contact.findViewById(R.id.name_contact);
+                        String value_name = dialog_name_id.getText().toString();
+                        if(value_name.trim().equals("Mood")){
+                            Intent startIntent = new Intent(mContext, MoodDetails.class);
+                            startIntent.putExtra("com.example.healthapp_test_DETAILS", " " + mData.get(vHolder.getAdapterPosition()).getName());
+                            mContext.startActivity(startIntent);
+                        } else {
+                            Intent startIntent = new Intent(mContext, DetailActivity.class);
+                            startIntent.putExtra("com.example.healthapp_test_DETAILS", " " + mData.get(vHolder.getAdapterPosition()).getName());
+                            mContext.startActivity(startIntent);
+                        }
                     }
                 });
 
