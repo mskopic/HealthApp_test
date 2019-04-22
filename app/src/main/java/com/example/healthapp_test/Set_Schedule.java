@@ -300,32 +300,16 @@ public class Set_Schedule extends AppCompatActivity {
         }
         else if(prev_act.equals("Exercise")){
             //create exercise
-            Exercise_Goal eg = new Exercise_Goal();
-            eg.setEx_name(intent.getStringExtra("ex_name"));
-            eg.setEx_type(intent.getStringExtra("ex_type"));
-            eg.setEx_intensity(intent.getIntExtra("ex_intensity",0));
+            int pos = getIntent().getIntExtra("ex_num",0);
+
+            Exercise_Goal eg = currUser.ex_goals.get(pos);
             eg.days = schedule_days;
             eg.setTime(new Time(hour,minute,0));
-
-            // if already created exercise, just change item at position
-            if(ac){
-                int pos = getIntent().getIntExtra("ex_num",0);
-                currUser.ex_goals.remove(pos);
-                currUser.ex_goals.add(pos,eg);
-                String json = gson.toJson(currUser);
-                prefsEditor.putString(user,json);
-                prefsEditor.commit();
-
-            }
-            // otherwise, add new item to shared preferences - ex_goal#
-            else{
-                currUser.ex_goals.add(eg);
-                String json = gson.toJson(currUser);
-                prefsEditor.putString(user,json);
-                prefsEditor.commit();
-
-
-            }
+            currUser.ex_goals.remove(pos);
+            currUser.ex_goals.add(pos,eg);
+            String json = gson.toJson(currUser);
+            prefsEditor.putString(user,json);
+            prefsEditor.commit();
 
         }
         else if(prev_act.equals("Meditation")){

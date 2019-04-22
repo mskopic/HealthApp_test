@@ -40,8 +40,14 @@ public class Exercise_Intensity extends AppCompatActivity {
 
         //get exercise type that was previously selected (Weight Training or Cardio)
         Intent intent = getIntent();
-        ex_type = intent.getStringExtra("ex_type");
-        ex_name = intent.getStringExtra("ex_name");
+        final String user = intent.getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        final ArrayList<Exercise_Goal> savedExGoals = currUser.ex_goals;
+        int ex_num = intent.getIntExtra("ex_num",0);
+        Exercise_Goal ex = savedExGoals.get(ex_num);
+        ex_type = ex.getEx_type();
 
         ListView list = (ListView) findViewById(R.id.listview);
 
@@ -65,17 +71,9 @@ public class Exercise_Intensity extends AppCompatActivity {
 
             }
         });
-
         // if already created
-        final String user = intent.getStringExtra("username");
-        Gson userGson = new Gson();
-        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
-        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
-        final ArrayList<Exercise_Goal> savedExGoals = currUser.ex_goals;
         ac = intent.getBooleanExtra("already_created",false);
         if(ac){
-            int ex_num = intent.getIntExtra("ex_num",0);
-            Exercise_Goal ex = savedExGoals.get(ex_num);
             list.setItemChecked(ex.getEx_intensity(),true);
             ex_intensity = ex.getEx_intensity();
 
@@ -83,23 +81,25 @@ public class Exercise_Intensity extends AppCompatActivity {
 
     }
     public void set_schedule(View v){
+        String user = getIntent().getStringExtra("username");
+        int ex_num = getIntent().getIntExtra("ex_num",0);
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        Gson userGson = new Gson();
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        Exercise_Goal currGoal = currUser.ex_goals.get(ex_num);
+        currGoal.setEx_intensity(ex_intensity);
+        currUser.ex_goals.remove(ex_num);
+        currUser.ex_goals.add(ex_num, currGoal);
+        SharedPreferences.Editor spEditor = sp.edit();
+        String json = userGson.toJson(currUser);
+        spEditor.putString(user,json);
+        spEditor.commit();
+
         Intent schedule = new Intent(this, Set_Schedule.class);
         schedule.putExtra("Previous","Exercise");
-        schedule.putExtra("ex_type",ex_type);
-        schedule.putExtra("ex_intensity",ex_intensity);
-        schedule.putExtra("ex_name",ex_name);
         schedule.putExtra("already_created",ac);
         schedule.putExtra("username",getIntent().getStringExtra("username"));
-
-        //if already created, add name of exercise we stored in sharedPreferences
-        if(ac) {
-            Log.i("saved_ex - intensity",getIntent().getStringExtra("saved_ex"));
-            schedule.putExtra("saved_ex", getIntent().getStringExtra("saved_ex"));
-            schedule.putExtra("ex_num",getIntent().getStringExtra("ex_num"));
-
-        }
-
-
+        schedule.putExtra("ex_num",ex_num);
 
         startActivity(schedule);
 
