@@ -1,13 +1,17 @@
 package com.example.healthapp_test;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
 public class DetailActivity extends AppCompatActivity {
+    Button detail_submit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,5 +63,13 @@ public class DetailActivity extends AppCompatActivity {
                 task_description.setText(textDescription);
             }
         }
+        detail_submit = (Button) findViewById(R.id.detail_submit);
+        detail_submit.setVisibility(View.VISIBLE);
+        detail_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -79,7 +80,6 @@ public class ScheduleTab extends Fragment {
         firstContact.add(new Schedule("Dinner", "7:00pm", R.drawable.diet));
         firstContact.add(new Schedule("Mood", "9:00pm", R.drawable.mood));
         firstContact.add(new Schedule("Sleep", "11:00pm", R.drawable.sleep));
-
 
     }
 
