@@ -77,6 +77,7 @@ public class ScheduleTab extends Fragment {
         firstContact.add(new Schedule("Mood", "9:00pm", R.drawable.mood));
         firstContact.add(new Schedule("Sleep", "11:00pm", R.drawable.sleep));
 
+
     }
 
     @Override

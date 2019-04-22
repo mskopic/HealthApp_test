@@ -11,6 +11,26 @@
         android:theme="@style/AppTheme">
         <activity android:name=".DetailActivity"></activity>
         <activity
+            android:name=".UserSignUp"
+            android:label="@string/title_activity_user_sign_up"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Welcome"
+            android:label="@string/title_activity_welcome"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.MainActivity" />
+        </activity>
+        <activity
+            android:name=".TabsActivity"
+            android:label="@string/title_activity_tabs"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.healthapp_test.MainActivity" />
+        </activity>
+        <activity
             android:name=".NewMeal"
             android:label="@string/title_activity_new_meal"
             android:parentActivityName=".Meal"

@@ -18,6 +18,8 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 public class NewMed extends AppCompatActivity {
 
     public int plan;
@@ -49,14 +51,16 @@ public class NewMed extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
+        final String user = getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        ArrayList<Meditation_Goal> savedMedGoals = currUser.med_goals;
         ac = intent.getBooleanExtra("already_created",false);
         if(ac){
-            SharedPreferences sharedPref = getSharedPreferences("Goals", Context.MODE_PRIVATE);
             //saved_diet is already made diet in json form
-            String med_num = intent.getStringExtra("med_num");
-            String json = sharedPref.getString(med_num, "");
-            Gson gson = new Gson();
-            Meditation_Goal med = gson.fromJson(json, Meditation_Goal.class);
+            int med_num = intent.getIntExtra("med_num",0);
+            Meditation_Goal med = savedMedGoals.get(med_num);
 
             //set plan name to what it was
             EditText et  = (EditText) findViewById(R.id.plan_name);
@@ -76,8 +80,9 @@ public class NewMed extends AppCompatActivity {
         schedule.putExtra("med_type", plan);
         schedule.putExtra("med_plan_name", plan_name);
         schedule.putExtra("already_created",ac);
+        schedule.putExtra("username",getIntent().getStringExtra("username"));
         if(ac) {
-            schedule.putExtra("med_num", getIntent().getStringExtra("med_num"));
+            schedule.putExtra("med_num", getIntent().getIntExtra("med_num",0));
         }
         startActivity(schedule);
 

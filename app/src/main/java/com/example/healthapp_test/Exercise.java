@@ -29,23 +29,24 @@ public class Exercise extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //make list of previous exercises
-        SharedPreferences sp = getSharedPreferences("Goals",Context.MODE_PRIVATE);
-        int num_ex_goals = sp.getInt("num_ex_goals",0);
+        final String user = getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        final ArrayList<Exercise_Goal> savedExGoals = currUser.ex_goals;
 
 
         //if we already have exercise goals made
-        if(num_ex_goals > 0) {
+        if(savedExGoals.size() > 0) {
             ListView list = (ListView) findViewById(R.id.ex_goals);
             final ArrayList<Exercise_Goal> ex_goals = new ArrayList<Exercise_Goal>();
             final ArrayList<String> ex_goals_names = new ArrayList<String>();
             Gson gson = new Gson();
 
-            for(int i = 0;i<num_ex_goals;i++){
-                String name = "exercise_goal"+i;
-                String json = sp.getString(name, "");
-                Exercise_Goal e = gson.fromJson(json, Exercise_Goal.class);
-                ex_goals.add(e);
-                ex_goals_names.add(e.getEx_name());
+            for(int i = 0;i<savedExGoals.size();i++){
+                Exercise_Goal ex = savedExGoals.get(i);
+                ex_goals.add(ex);
+                ex_goals_names.add(ex.getEx_name());
             }
 
             // list stuff
@@ -58,10 +59,14 @@ public class Exercise extends AppCompatActivity {
                         // TODO Auto-generated method stub
                         Exercise_Goal chosen_goal = ex_goals.get(position);
                         Intent new_ex = new Intent(view.getContext(),NewEx.class);
-                        new_ex.putExtra("already_created",true);
-                        String old_ex = "exercise_goal"+position;
+                        String old_ex = savedExGoals.get(position).getEx_name();
                         new_ex.putExtra("saved_ex",old_ex);
                         Log.i("saved_ex",old_ex);
+                        new_ex.putExtra("already_created",true);
+                        new_ex.putExtra("ex_num",position);
+                        new_ex.putExtra("ex_name", chosen_goal.getEx_name());
+                        new_ex.putExtra("username", user);
+
                         startActivity(new_ex);
 
                     }
@@ -72,8 +77,10 @@ public class Exercise extends AppCompatActivity {
     }
 
     public void new_ex(View view){
+        final String user = getIntent().getStringExtra("username");
         Intent new_ex = new Intent(this,NewEx.class);
         new_ex.putExtra("already_created",false);
+        new_ex.putExtra("username", user);
         startActivity(new_ex);
     }
 

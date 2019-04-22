@@ -141,25 +141,32 @@ public class GoalsTab extends Fragment implements MyRecyclerViewAdapter.ItemClic
     }
 
     public void onItemClick(View view, int position){
+        Intent prevIntent = getActivity().getIntent();
+        String user = prevIntent.getStringExtra("username");
         switch (position){
             case 0:
                 Intent diet = new Intent(getActivity(),Diet.class);
+                diet.putExtra("username",user);
                 startActivity(diet);
                 break;
             case 1:
                 Intent ex = new Intent(getActivity(),Exercise.class);
+                ex.putExtra("username",user);
                 startActivity(ex);
                 break;
             case 2:
                 Intent sleep = new Intent(getActivity(),Sleep.class);
+                sleep.putExtra("username",user);
                 startActivity(sleep);
                 break;
             case 3:
                 Intent mood = new Intent(getActivity(),Mood.class);
+                mood.putExtra("username",user);
                 startActivity(mood);
                 break;
             case 4:
                 Intent med = new Intent(getActivity(),Meditation.class);
+                med.putExtra("username",user);
                 startActivity(med);
                 break;
 
