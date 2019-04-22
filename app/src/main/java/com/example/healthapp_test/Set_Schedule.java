@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -136,6 +137,15 @@ public class Set_Schedule extends AppCompatActivity {
                 schedule_days.add(position);
         }
 
+        //if no days selected
+        if(schedule_days.size() == 0){
+            Context context = getApplicationContext();
+            CharSequence text = "You Must Select At Least One Day To Continue";
+            Toast myToast = Toast.makeText(context,text, Toast.LENGTH_SHORT);
+            myToast.show();
+            return;
+        }
+
         Intent intent = getIntent();
         String prev_act = intent.getStringExtra("Previous");
         //create new class based off everything that has been selected
@@ -151,7 +161,9 @@ public class Set_Schedule extends AppCompatActivity {
         int id = item.getItemId();
 
         if ( id == android.R.id.home ) {
-            finish();
+            Intent intent = getIntent();
+            String prev_activity = intent.getStringExtra("Previous");
+            goBack(prev_activity);
             return true;
         }
 
@@ -334,6 +346,44 @@ public class Set_Schedule extends AppCompatActivity {
 
     }
 
+
+    public void goBack(String previous){
+        if(previous.equals("Exercise")){
+            String user = getIntent().getStringExtra("username");
+            int ex_num = getIntent().getIntExtra("ex_num",0);
+            boolean ac = getIntent().getBooleanExtra("already_created",false);
+
+            Intent intent = new Intent(this,Exercise_Intensity.class);
+            intent.putExtra("username",user);
+            intent.putExtra("ex_num",ex_num);
+            intent.putExtra("already_created",ac);
+            startActivity(intent);
+        }
+        else if(previous.equals("Meal")){
+
+        }
+        else if(previous.equals("Meditation")){
+            String user = getIntent().getStringExtra("username");
+            int med_num = getIntent().getIntExtra("med_num",0);
+            boolean ac = getIntent().getBooleanExtra("already_created",false);
+
+            Intent intent = new Intent(this,NewMed.class);
+            intent.putExtra("username",user);
+            intent.putExtra("med_num",med_num);
+            intent.putExtra("already_created",ac);
+            startActivity(intent);
+
+
+        }
+        else if(previous.equals("Mood")){
+
+        }
+        else if(previous.equals("Sleep")){
+
+        }
+
+
+    }
 
 
 

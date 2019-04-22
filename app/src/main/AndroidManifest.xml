@@ -109,11 +109,11 @@
         <activity
             android:name=".Mood"
             android:label="Mood"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".TabsActivity" />
         <activity
             android:name=".Sleep"
             android:label="Sleep"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".TabsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.healthapp_test.MainActivity" />
@@ -121,7 +121,7 @@
         <activity
             android:name=".Meditation"
             android:label="Meditation"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".TabsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.healthapp_test.MainActivity" />
@@ -129,7 +129,7 @@
         <activity
             android:name=".Diet"
             android:label="Diet"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".TabsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.healthapp_test.MainActivity" />
@@ -137,7 +137,7 @@
         <activity
             android:name=".Exercise"
             android:label="Exercise"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".TabsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.healthapp_test.MainActivity" />
