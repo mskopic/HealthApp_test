@@ -37,7 +37,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="479dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -47,15 +47,43 @@
         android:layout_marginTop="181dp"
         android:layout_marginBottom="0dp">
 
-
-        <Spinner
-            android:id="@+id/trend_graph_options"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="400dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="4dp"
-            android:text="Select Trend"></Spinner>
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/week_circles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="55dp"
+                android:layout_marginRight="40dp"
+                android:layout_below="@+id/textView14"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/week_one_balls" />
+
+            <Spinner
+                android:id="@+id/trend_graph_options"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="40dp"
+                android:text="Select Trend"></Spinner>
+
+            <ImageView
+                android:id="@+id/week_mood_time_graph"
+                android:layout_width="wrap_content"
+                android:layout_height="268dp"
+                android:layout_below="@+id/week_circles"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:src="@drawable/week_mood_time" />
+
+
+        </LinearLayout>
+
+
     </ScrollView>
 
     <TextView
@@ -77,8 +105,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView14"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="5dp"
         android:src="@drawable/legend_blue_exercise" />
 
@@ -86,8 +115,6 @@
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView16"
-        android:layout_alignRight="@+id/textView16"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -104,8 +131,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView14"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="95dp"
+        android:layout_marginLeft="95dp"
         android:layout_marginTop="5dp"
         android:src="@drawable/legend_green_diet" />
 
@@ -131,8 +159,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView14"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="172dp"
+        android:layout_marginLeft="172dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/legend_purple_meditation" />
 
@@ -158,105 +187,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView14"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="275dp"
+        android:layout_marginLeft="275dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/legend_pink_sleep" />
-
-    <ImageView
-        android:id="@+id/legend_green2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView14"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="95dp"
-        android:layout_marginTop="5dp"
-        android:src="@drawable/legend_green_diet" />
-
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="82dp"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView16"
-        android:layout_alignRight="@+id/textView16"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="196dp"
-        android:layout_marginLeft="196dp"
-        android:layout_marginTop="152dp"
-        android:layout_marginEnd="-185dp"
-        android:layout_marginRight="-185dp"
-        android:text=": Meditation"
-        tools:text=": Meditation" />
-
-    <ImageView
-        android:id="@+id/legend_pink2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView14"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="275dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/legend_pink_sleep" />
-
-    <TextView
-        android:id="@+id/textView21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="114dp"
-        android:text="Overview:"
-        android:textSize="24sp"
-        tools:text="Overview:" />
-
-    <ImageView
-        android:id="@+id/legend_purple2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView14"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/legend_purple_meditation" />
-
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="34dp"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView16"
-        android:layout_alignRight="@+id/textView16"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="118dp"
-        android:layout_marginLeft="118dp"
-        android:layout_marginTop="152dp"
-        android:layout_marginEnd="-75dp"
-        android:layout_marginRight="-75dp"
-        android:text=": Diet"
-        tools:text=": Diet" />
-
-    <TextView
-        android:id="@+id/textView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView16"
-        android:layout_alignRight="@+id/textView16"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginLeft="31dp"
-        android:layout_marginTop="152dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:text=": Exercise"
-        tools:text=": Exercise" />
 
     <TextView
         android:id="@+id/textView19"
@@ -275,23 +210,6 @@
         android:text=": Sleep"
         tools:text=": Sleep" />
 
-    <ImageView
-        android:id="@+id/week_circles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView14"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp"
-        android:src="@drawable/week_full_ball" />
 
-    <ImageView
-        android:id="@+id/week_mood_time_graph"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView14"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginRight="40dp"
-        android:src="@drawable/week1_mood_v_time" />
 
 </RelativeLayout>
