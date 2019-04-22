@@ -140,7 +140,8 @@ public class Set_Schedule extends AppCompatActivity {
         String prev_act = intent.getStringExtra("Previous");
         //create new class based off everything that has been selected
         new_class(prev_act);
-        Intent done = new Intent(this,MainActivity.class);
+        Intent done = new Intent(this,TabsActivity.class);
+        done.putExtra("username", getIntent().getStringExtra("username"));
         startActivity(done);
     }
 
@@ -158,7 +159,8 @@ public class Set_Schedule extends AppCompatActivity {
     }
 
     public void addOldDays(String prev_act){
-        sharedPref = getSharedPreferences("Goals",Context.MODE_PRIVATE);
+        final String user = getIntent().getStringExtra("username");
+        sharedPref = getSharedPreferences("user_details",Context.MODE_PRIVATE);
         EditText time = findViewById(R.id.time);
         Intent intent = getIntent();
         ArrayList<Integer> days = new ArrayList<Integer>();
@@ -194,10 +196,12 @@ public class Set_Schedule extends AppCompatActivity {
 
         }
         else if(prev_act.equals("Meditation")){
-            String saved_goal = intent.getStringExtra("med_num");
-            String json = sharedPref.getString(saved_goal, "");
+            SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
             Gson gson = new Gson();
-            Meditation_Goal med = gson.fromJson(json, Meditation_Goal.class);
+            UserDetails currUser = gson.fromJson(sp.getString(user,""), UserDetails.class);
+            ArrayList<Meditation_Goal> savedMedGoals = currUser.med_goals;
+            int saved_goal = intent.getIntExtra("med_num",0);
+            Meditation_Goal med = savedMedGoals.get(saved_goal);
             //get days it is previously set to
             days = med.days;
             //set time
@@ -233,9 +237,11 @@ public class Set_Schedule extends AppCompatActivity {
 
     public void new_class(String prev_act){
         Intent intent = getIntent();
-        sharedPref = getSharedPreferences("Goals",Context.MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = sharedPref.edit();
         Gson gson = new Gson();
+        String user = getIntent().getStringExtra("username");
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sp.edit();
+        UserDetails currUser = gson.fromJson(sp.getString(user,""), UserDetails.class);
 
         //get time
         EditText editText = (EditText) findViewById(R.id.time);
@@ -254,12 +260,9 @@ public class Set_Schedule extends AppCompatActivity {
             sl.setHours_sleep(intent.getIntExtra("hours_sleep",0));
             sl.setAlarm(new Time(hour,minute,0));
             sl.setDays(schedule_days);
-            String json = gson.toJson(sl);
-            int num_sleep_goal = sharedPref.getInt("num_sleep_goals",0);
-            String name = "sleep_goal"+num_sleep_goal;
-            prefsEditor.putString(name, json);
-            num_sleep_goal++;
-            prefsEditor.putInt("num_sleep_goals",num_sleep_goal);
+            currUser.sleep_goals.add(sl);
+            String json = gson.toJson(currUser);
+            prefsEditor.putString(user,json);
             prefsEditor.commit();
         }
         else if(prev_act.equals("Meal")){
@@ -332,18 +335,17 @@ public class Set_Schedule extends AppCompatActivity {
             med.setTime(new Time(hour,minute,0));
 
             if(ac){
-                String saved_med = intent.getStringExtra("med_num");
-                String json_back = gson.toJson(med);
-                prefsEditor.putString(saved_med, json_back);
+                int pos = getIntent().getIntExtra("med_num",0);
+                currUser.med_goals.remove(pos);
+                currUser.med_goals.add(pos,med);
+                String json = gson.toJson(currUser);
+                prefsEditor.putString(user,json);
                 prefsEditor.commit();
             }
             else{
-                String json = gson.toJson(med);
-                int num_med_goal = sharedPref.getInt("num_med_goals",0);
-                String name = "med_goal"+num_med_goal;
-                prefsEditor.putString(name, json);
-                num_med_goal++;
-                prefsEditor.putInt("num_med_goals",num_med_goal);
+                currUser.med_goals.add(med);
+                String json = gson.toJson(currUser);
+                prefsEditor.putString(user,json);
                 prefsEditor.commit();
 
             }

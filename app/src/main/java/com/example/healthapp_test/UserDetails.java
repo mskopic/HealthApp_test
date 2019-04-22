@@ -18,6 +18,7 @@ public class UserDetails {
     ArrayList<Sleep_Goal> sleep_goals;
     ArrayList<String> sleep_goals_names;
 
+
     public UserDetails(String username, String password, String name, String dob, String gender, String weight){
         this.username = username;
         this.password = password;

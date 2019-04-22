@@ -40,6 +40,7 @@ public class TabsActivity extends AppCompatActivity {
         SharedPreferences sharedPrefs = getSharedPreferences("user_details",Context.MODE_PRIVATE);
 
 
+
     }
 
 

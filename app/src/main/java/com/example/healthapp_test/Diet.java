@@ -33,6 +33,11 @@ public class Diet extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("Goals", Context.MODE_PRIVATE);
         int num_diet_goals = sp.getInt("num_diet_goals",0);
 
+        SharedPreferences spUser = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        System.out.println(spUser.getAll());
+
+
+
 
         //if we already have exercise goals made
         if(num_diet_goals > 0) {

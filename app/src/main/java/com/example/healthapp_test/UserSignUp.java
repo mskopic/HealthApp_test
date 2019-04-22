@@ -1,6 +1,8 @@
 package com.example.healthapp_test;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +16,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+
+import java.util.HashMap;
 
 public class UserSignUp extends AppCompatActivity {
 
@@ -44,12 +50,18 @@ public class UserSignUp extends AppCompatActivity {
             RadioButton selectedGender = findViewById(gender.getCheckedRadioButtonId());
             RadioButton selectedWeight = findViewById(weight.getCheckedRadioButtonId());
             String selGender = selectedGender.getText().toString();
-            String selWeight = selectedGender.getText().toString();
+            String selWeight = selectedWeight.getText().toString();
             Intent prev = getIntent();
             String user = prev.getStringExtra("username");
             String pass = prev.getStringExtra("password");
             UserDetails newUser = new UserDetails(user, pass, nameOf, dobOf, selGender,selWeight);
+            SharedPreferences spUser = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+            Gson gson = new Gson();
+            SharedPreferences.Editor userEdit = spUser.edit();
+            userEdit.putString(user, gson.toJson(newUser));
+            userEdit.commit();
             Intent newIntent = new Intent(this, TabsActivity.class);
+            newIntent.putExtra("username",user);
             startActivity(newIntent);
         }
 
