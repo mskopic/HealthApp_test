@@ -142,6 +142,7 @@ public class Set_Schedule extends AppCompatActivity {
         new_class(prev_act);
         Intent done = new Intent(this,TabsActivity.class);
         done.putExtra("username", getIntent().getStringExtra("username"));
+        done.putExtra("med_to_sched", "true");
         startActivity(done);
     }
 

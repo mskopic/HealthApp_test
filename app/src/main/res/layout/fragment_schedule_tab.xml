@@ -45,7 +45,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginBottom="72dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         />
 
     <TextView
@@ -53,13 +53,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="460dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:text="May 24, 2019" />
 
     <View
+        android:id="@+id/future_view"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="480dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:background="#cbcbcb" />
 </RelativeLayout>
