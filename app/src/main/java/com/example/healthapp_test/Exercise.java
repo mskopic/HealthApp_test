@@ -41,7 +41,6 @@ public class Exercise extends AppCompatActivity {
             ListView list = (ListView) findViewById(R.id.ex_goals);
             final ArrayList<Exercise_Goal> ex_goals = new ArrayList<Exercise_Goal>();
             final ArrayList<String> ex_goals_names = new ArrayList<String>();
-            Gson gson = new Gson();
 
             for(int i = 0;i<savedExGoals.size();i++){
                 Exercise_Goal ex = savedExGoals.get(i);
@@ -59,12 +58,8 @@ public class Exercise extends AppCompatActivity {
                         // TODO Auto-generated method stub
                         Exercise_Goal chosen_goal = ex_goals.get(position);
                         Intent new_ex = new Intent(view.getContext(),NewEx.class);
-                        String old_ex = savedExGoals.get(position).getEx_name();
-                        new_ex.putExtra("saved_ex",old_ex);
-                        Log.i("saved_ex",old_ex);
                         new_ex.putExtra("already_created",true);
                         new_ex.putExtra("ex_num",position);
-                        new_ex.putExtra("ex_name", chosen_goal.getEx_name());
                         new_ex.putExtra("username", user);
 
                         startActivity(new_ex);
@@ -77,10 +72,21 @@ public class Exercise extends AppCompatActivity {
     }
 
     public void new_ex(View view){
-        final String user = getIntent().getStringExtra("username");
+        Exercise_Goal newExGoal = new Exercise_Goal();
+        Gson userGson = new Gson();
+        String user = getIntent().getStringExtra("username");
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        currUser.ex_goals.add(newExGoal);
+        int pos = currUser.ex_goals.size()-1;
+        SharedPreferences.Editor spEditor = sp.edit();
+        String json = userGson.toJson(currUser);
+        spEditor.putString(user,json);
+        spEditor.commit();
         Intent new_ex = new Intent(this,NewEx.class);
         new_ex.putExtra("already_created",false);
         new_ex.putExtra("username", user);
+        new_ex.putExtra("ex_num", pos);
         startActivity(new_ex);
     }
 

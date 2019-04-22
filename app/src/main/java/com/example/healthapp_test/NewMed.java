@@ -74,16 +74,28 @@ public class NewMed extends AppCompatActivity {
     public void set_schedule(View v){
         EditText editText = (EditText) findViewById(R.id.plan_name);
         plan_name = editText.getText().toString();
+
+        String user = getIntent().getStringExtra("username");
+        int med_num = getIntent().getIntExtra("med_num",0);
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        Gson userGson = new Gson();
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        Meditation_Goal currGoal = currUser.med_goals.get(med_num);
+        currGoal.setMed_name(plan_name);
+        currGoal.setMed_type(plan);
+        currUser.med_goals.remove(med_num);
+        currUser.med_goals.add(med_num, currGoal);
+        SharedPreferences.Editor spEditor = sp.edit();
+        String json = userGson.toJson(currUser);
+        spEditor.putString(user,json);
+        spEditor.commit();
         Intent schedule = new Intent(this, Set_Schedule.class);
         schedule.putExtra("Previous","Meditation");
         //send all info gained and already with us
-        schedule.putExtra("med_type", plan);
-        schedule.putExtra("med_plan_name", plan_name);
         schedule.putExtra("already_created",ac);
         schedule.putExtra("username",getIntent().getStringExtra("username"));
-        if(ac) {
-            schedule.putExtra("med_num", getIntent().getIntExtra("med_num",0));
-        }
+        schedule.putExtra("med_num", getIntent().getIntExtra("med_num",0));
+
         startActivity(schedule);
 
     }

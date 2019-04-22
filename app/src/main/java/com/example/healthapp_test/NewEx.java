@@ -90,17 +90,24 @@ public class NewEx extends AppCompatActivity {
        EditText editText = (EditText) findViewById(R.id.plan_name);
        plan_name = editText.getText().toString();
 
+       String user = getIntent().getStringExtra("username");
+       int ex_num = getIntent().getIntExtra("ex_num",0);
+       SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+       Gson userGson = new Gson();
+       UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+       Exercise_Goal currGoal = currUser.ex_goals.get(ex_num);
+       currGoal.setEx_type(ex_type);
+       currGoal.setEx_name(plan_name);
+       currUser.ex_goals.remove(ex_num);
+       currUser.ex_goals.add(ex_num, currGoal);
+       SharedPreferences.Editor spEditor = sp.edit();
+       String json = userGson.toJson(currUser);
+       spEditor.putString(user,json);
+       spEditor.commit();
        Intent new_ex = new Intent(this, Exercise_Intensity.class);
-       new_ex.putExtra("ex_type", ex_type);
-       new_ex.putExtra("ex_name", plan_name);
        new_ex.putExtra("already_created",ac);
        new_ex.putExtra("username",getIntent().getStringExtra("username"));
-       if(ac) {
-           Log.i("saved_ex - new",getIntent().getStringExtra("saved_ex"));
-           new_ex.putExtra("ex_num",getIntent().getStringExtra("ex_num"));
-           new_ex.putExtra("saved_ex", getIntent().getStringExtra("saved_ex"));
-       }
-
+       new_ex.putExtra("ex_num",ex_num);
        startActivity(new_ex);
    }
 
