@@ -31,6 +31,7 @@ public class NewSleep extends AppCompatActivity {
         hours = Integer.parseInt(editText.getText().toString());
 
         Intent schedule = new Intent(this, Set_Schedule.class);
+        schedule.putExtra("username",getIntent().getStringExtra("username"));
         schedule.putExtra("Previous","Sleep");
         schedule.putExtra("hours_sleep",hours);
         startActivity(schedule);

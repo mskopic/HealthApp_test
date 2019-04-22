@@ -58,7 +58,7 @@ public class Mood extends AppCompatActivity {
 
     }
     public void back_to_main(View view){
-        Intent main = new Intent(this,MainActivity.class);
+        Intent main = new Intent(this,TabsActivity.class);
         // get time of day
         EditText texttime = findViewById(R.id.time);
         time = texttime.getText().toString();

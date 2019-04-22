@@ -38,9 +38,13 @@ public class Meal extends AppCompatActivity {
 
         //get list of (possible) previous meals
         SharedPreferences sp = getSharedPreferences("Goals", Context.MODE_PRIVATE);
+        SharedPreferences spUser = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        Gson newGson = new Gson();
+        UserDetails currUser = newGson.fromJson(spUser.getString("user","null"),UserDetails.class);
         Gson gson = new Gson();
-        String json = sp.getString(diet_num, "");
-        Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
+        Intent currIntent = getIntent();
+        int curr_diet = currIntent.getIntExtra("diet_num",0);
+        Diet_Goal d = currUser.diet_goals.get(curr_diet);
         final ArrayList<Meal_Goal> meal_goals = d.meals;
 
 
