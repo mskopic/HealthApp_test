@@ -288,10 +288,9 @@
         android:id="@+id/week_mood_time_graph"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView14"
+        android:layout_below="@+id/week_circles"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="112dp"
         android:layout_marginRight="40dp"
-        android:src="@drawable/week1_mood_v_time" />
+        android:src="@drawable/week_mood_time" />
 
 </RelativeLayout>

@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,8 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
     private RadioButton weekly_but;
     private RadioButton monthly_but;
     private RadioButton all_time_but;
+
+    //final private ImageView imageView;
 
     public Spinner weekly_graphs;
     private Spinner monthly_graphs;
@@ -90,6 +93,10 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_trends_tab, container, false);
+        final ArrayList<String> chartNames = new ArrayList<>();
+        chartNames.add("Mood Over Time");
+        chartNames.add("Sleep Goal Over Time");
+        chartNames.add("Effect of Calories on Mood");
 
         buttons = view.findViewById(R.id.timeButtons);
         buttons.check(R.id.week_trend_but);
@@ -97,57 +104,62 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
         weekly_but = view.findViewById(R.id.week_trend_but);
         monthly_but = view.findViewById(R.id.month_trend_but);
         all_time_but = view.findViewById(R.id.all_trend_but);
+
+
+        final ImageView imageView = (ImageView) view.findViewById(R.id.week_circles);
+        final ImageView graphView = (ImageView) view.findViewById(R.id.week_mood_time_graph);
+        int time_frame = 0; //0 is week, 1 is month, 2 is alltime
         weekly_but.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                imageView.setImageResource(R.drawable.week_one_balls);
+                String text = weekly_graphs.getSelectedItem().toString();
+                if (text == chartNames.get(0)) {
+                    graphView.setImageResource(R.drawable.week_mood_time);
+                }
+                if (text == chartNames.get(1)) {
+                    graphView.setImageResource(R.drawable.week_sleep_time);
+                }
+                if (text == chartNames.get(2)) {
+                    graphView.setImageResource(R.drawable.week_calories_mood);
+                }
             }
         });
         monthly_but.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                imageView.setImageResource(R.drawable.month_balls);
+                String text = weekly_graphs.getSelectedItem().toString();
+                if (text == chartNames.get(0)) {
+                    graphView.setImageResource(R.drawable.month_mood_time);
+                }
+                if (text == chartNames.get(1)) {
+                    graphView.setImageResource(R.drawable.month_sleep_time);
+                }
+                if (text == chartNames.get(2)) {
+                    graphView.setImageResource(R.drawable.month_calories_mood);
+                }
             }
         });
         all_time_but.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                imageView.setImageResource(R.drawable.not_implemented);
+                String text = weekly_graphs.getSelectedItem().toString();
+                if (text == chartNames.get(0)) {
+                    graphView.setImageResource(R.drawable.all_mood_time);
+                }
+                if (text == chartNames.get(1)) {
+                    graphView.setImageResource(R.drawable.all_sleep_time);
+                }
+                if (text == chartNames.get(2)) {
+                    graphView.setImageResource(R.drawable.all_calories_mood);
+                }
             }
         });
 
-        ArrayList<String> chartNames = new ArrayList<>();
-        chartNames.add("Mood Over Time");
-        chartNames.add("Sleep Goal Over Time");
-        chartNames.add("Effect of Diet on Mood");
-        chartNames.add("Effect of Mood on Diet");
-
-        //Code for switching between Weekly, Monthly, and All_Time data
-
-
-       /* weekly_but.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                weeklyClicked();
-            }
-        });
-
-        monthly_but.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                monthlyClicked();
-            }
-        });
-
-        all_time_but.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                allTimeClicked();
-            }
-        }); */
 
         //Spinner with graph options:
         weekly_graphs = view.findViewById(R.id.trend_graph_options);
         ArrayAdapter<String> adapter = new ArrayAdapter((Context)getContext(),
                 android.R.layout.simple_spinner_item, chartNames);
-        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource((Context)getContext(),
-                R.array.weekly_graph_array, android.R.layout.simple_spinner_item); */
-        //ArrayAdapter<String> adapter1 = new ArrayAdapter<>()
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //weekly_graphs.setOnItemSelectedListener(this);
         if (weekly_graphs != null) {
@@ -160,13 +172,35 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
                 String item = parent.getItemAtPosition(position).toString();
                 switch(position) {
                     case 0:
-                        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                        if (weekly_but.isChecked()) {
+                            graphView.setImageResource(R.drawable.week_mood_time);
+                        } if (monthly_but.isChecked()) {
+                            graphView.setImageResource(R.drawable.all_mood_time);
+                        } if (all_time_but.isChecked()) {
+                            graphView.setImageResource(R.drawable.month_mood_time);
+                        }
+                        break;
                     case 1:
-                        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                        if (weekly_but.isChecked()) {
+                            graphView.setImageResource(R.drawable.week_sleep_time);
+                        } if (monthly_but.isChecked()) {
+                            graphView.setImageResource(R.drawable.month_sleep_time);
+                        } if (all_time_but.isChecked()) {
+                            graphView.setImageResource(R.drawable.all_sleep_time);
+                        }
+                        break;
                     case 2:
-                        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-                    case 3:
-                        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                        if (weekly_but.isChecked()) {
+                            graphView.setImageResource(R.drawable.week_calories_mood);
+                        } if (monthly_but.isChecked()) {
+                            graphView.setImageResource(R.drawable.month_calories_mood);
+                        } if (all_time_but.isChecked()) {
+                            graphView.setImageResource(R.drawable.all_calories_mood);
+                        }
+                        break;
                 }
             }
 
@@ -226,8 +260,24 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
         //0 is Mood Over Time
         //1 is Sleep Goal Over Time
         //2 is Effect of Diet on Mood
-        //3 is Effect of Mood on Diet
         String item = parent.getItemAtPosition(position).toString();
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.week_trend_but:
+                if (checked)
+                    // Pirates are the best
+                    break;
+            case R.id.month_trend_but:
+                if (checked)
+                    // Ninjas rule
+                    break;
+            case R.id.all_trend_but:
+                if (checked)
+                    // Ninjas rule
+                    break;
+        }
         switch(position) {
             case 0:
                 Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
