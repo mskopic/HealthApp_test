@@ -3,6 +3,7 @@ package com.example.healthapp_test;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -64,6 +65,100 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     }
                 });
 
+                // Mark as Complete
+                Button dialog_complete = (Button) myDialog.findViewById(R.id.dialog_complete);
+                dialog_complete.setOnClickListener(new View.OnClickListener(){
+                    String value_task;
+                    String value_dialog;
+                    String value_name;
+                    @Override
+                    public void onClick(View v) {
+
+                        //change the element as completed (on the RecyclerView)
+                        TextView task_status = (TextView) vHolder.item_contact.findViewById(R.id.task_status);
+                        TextView dialog_name_id = (TextView) vHolder.item_contact.findViewById(R.id.name_contact);
+                        TextView dialog_status = (TextView) v.findViewById(R.id.dialog_complete);
+                        value_task = task_status.getText().toString();
+                        value_dialog = dialog_status.getText().toString();
+                        value_name = dialog_name_id.getText().toString();
+
+                        // Lunch
+                        if(value_name.trim().equals("Lunch") && value_task.trim().equals("INCOMPLETE")) {
+                            task_status.setText("COMPLETE");
+                            task_status.setTextColor(Color.parseColor("#33cc5a"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        } else if(value_name.trim().equals("Lunch") && value_task.trim().equals("COMPLETE")){
+                            task_status.setText("INCOMPLETE");
+                            task_status.setTextColor(Color.parseColor("#ff0006"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        }
+
+                        // Exercise
+                        if(value_name.trim().equals("Exercise") && value_task.trim().equals("INCOMPLETE")) {
+                            task_status.setText("COMPLETE");
+                            task_status.setTextColor(Color.parseColor("#33cc5a"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        } else if(value_name.trim().equals("Exercise") && value_task.trim().equals("COMPLETE")){
+                            task_status.setText("INCOMPLETE");
+                            task_status.setTextColor(Color.parseColor("#ff0006"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        }
+
+                        // Dinner
+                        if(value_name.trim().equals("Dinner") && value_task.trim().equals("INCOMPLETE")) {
+                            task_status.setText("COMPLETE");
+                            task_status.setTextColor(Color.parseColor("#33cc5a"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        } else if(value_name.trim().equals("Dinner") && value_task.trim().equals("COMPLETE")){
+                            task_status.setText("INCOMPLETE");
+                            task_status.setTextColor(Color.parseColor("#ff0006"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        }
+
+                        // Mood
+                        if(value_name.trim().equals("Mood") && value_task.trim().equals("INCOMPLETE")) {
+                            task_status.setText("COMPLETE");
+                            task_status.setTextColor(Color.parseColor("#33cc5a"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        } else if(value_name.trim().equals("Mood") && value_task.trim().equals("COMPLETE")){
+                            task_status.setText("INCOMPLETE");
+                            task_status.setTextColor(Color.parseColor("#ff0006"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        }
+
+                        // Sleep
+                        if(value_name.trim().equals("Sleep") && value_task.trim().equals("INCOMPLETE")) {
+                            task_status.setText("COMPLETE");
+                            task_status.setTextColor(Color.parseColor("#33cc5a"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        } else if(value_name.trim().equals("Sleep") && value_task.trim().equals("COMPLETE")){
+                            task_status.setText("INCOMPLETE");
+                            task_status.setTextColor(Color.parseColor("#ff0006"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        }
+
+                    }
+                });
 
                 // Close the current dialog box
                 Button dialog_btn_close = (Button) myDialog.findViewById(R.id.dialog_btn_close);
