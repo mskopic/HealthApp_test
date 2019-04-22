@@ -43,6 +43,14 @@
             android:layout_marginTop="10dp"
             />
         <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:text="CHECK/UNCHECK"
+            android:layout_marginTop="2dp"
+            android:id="@+id/dialog_complete"
+            />
+        <Button
             android:id="@+id/dialog_btn_close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
