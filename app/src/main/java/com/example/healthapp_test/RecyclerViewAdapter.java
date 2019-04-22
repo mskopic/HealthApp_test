@@ -26,7 +26,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context mContext;
     List<Schedule> mData;
     Dialog myDialog;
-
     public RecyclerViewAdapter(Context mContext, List<Schedule> mData) {
         this.mContext = mContext;
         this.mData = mData;
@@ -62,13 +61,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         TextView dialog_name_id = (TextView) vHolder.item_contact.findViewById(R.id.name_contact);
                         String value_name = dialog_name_id.getText().toString();
                         if(value_name.trim().equals("Mood")){
+
+                            TextView task_status = (TextView) vHolder.item_contact.findViewById(R.id.task_status);
+                            task_status.setText("COMPLETE");
+                            task_status.setTextColor(Color.parseColor("#33cc5a"));
+
                             Intent startIntent = new Intent(mContext, MoodDetails.class);
                             startIntent.putExtra("com.example.healthapp_test_DETAILS", " " + mData.get(vHolder.getAdapterPosition()).getName());
                             mContext.startActivity(startIntent);
+                            myDialog.dismiss();
                         } else {
                             Intent startIntent = new Intent(mContext, DetailActivity.class);
                             startIntent.putExtra("com.example.healthapp_test_DETAILS", " " + mData.get(vHolder.getAdapterPosition()).getName());
                             mContext.startActivity(startIntent);
+                            myDialog.dismiss();
                         }
                     }
                 });

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MoodDetails extends AppCompatActivity {
     RatingBar rb;
@@ -59,9 +60,8 @@ public class MoodDetails extends AppCompatActivity {
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent startIntent = new Intent(getApplicationContext(), MainActivity.class);
-                        startIntent.putExtra("com.example.healthapp_test_MOOD_RATING", "COMPLETE");
-                        startActivity(startIntent);
+                        Toast.makeText(getApplicationContext(),"Rating Submitted", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
             }
