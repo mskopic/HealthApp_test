@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -68,6 +69,7 @@ public class Diet extends AppCompatActivity {
                     new_diet.putExtra("already_created",true);
                     new_diet.putExtra("diet_num","diet_goal"+position);
                     new_diet.putExtra("diet_plan_name", chosen_goal.getDiet_name());
+                    new_diet.putExtra("previous","diet");
                     startActivity(new_diet);
 
                 }
@@ -80,5 +82,31 @@ public class Diet extends AppCompatActivity {
         new_diet.putExtra("already_created",false);
         startActivity(new_diet);
     }
+
+
+    public void onBackPressed()
+    {
+
+        String user = getIntent().getStringExtra("username");
+        Intent intent = new Intent(this,TabsActivity.class);
+        intent.putExtra("username",user);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 }

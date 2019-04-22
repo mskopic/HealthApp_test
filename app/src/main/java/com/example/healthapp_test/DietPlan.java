@@ -61,7 +61,7 @@ public class DietPlan extends AppCompatActivity {
         if(ac){
             SharedPreferences sharedPref = getSharedPreferences("Goals", Context.MODE_PRIVATE);
             //saved_diet is already made diet in json form
-            String saved_diet = intent.getStringExtra("saved_diet");
+            String saved_diet = intent.getStringExtra("diet_num");
             String json = sharedPref.getString(saved_diet, "");
             Gson gson = new Gson();
             Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
