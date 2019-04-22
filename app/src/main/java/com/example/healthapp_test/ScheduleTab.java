@@ -1,6 +1,7 @@
 package com.example.healthapp_test;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -44,7 +46,7 @@ public class ScheduleTab extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private Intent prevIntent;
     public ScheduleTab() {
         // Required empty public constructor
     }
@@ -83,6 +85,7 @@ public class ScheduleTab extends Fragment {
 
         secondContact = new ArrayList<>();
         secondContact.add(new Schedule("Meditate", "9:00am", R.drawable.meditate));
+
     }
 
     @Override
@@ -99,6 +102,19 @@ public class ScheduleTab extends Fragment {
         RecyclerViewAdapter recyclerAdapter1 = new RecyclerViewAdapter(getContext(), secondContact);
         myRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecyclerView1.setAdapter(recyclerAdapter1);
+
+        prevIntent = getActivity().getIntent();
+        String user = prevIntent.getStringExtra("med_to_sched");
+
+        if(user != null) {
+            if (user.trim().equals("med_to_sched") || user.trim().equals("true")) {
+                myRecyclerView1.setVisibility(View.VISIBLE);
+                View future_view = (View) v.findViewById(R.id.future_view);
+                future_view.setVisibility(View.VISIBLE);
+                TextView future_text_view = (TextView) v.findViewById(R.id.future_textview);
+                future_text_view.setVisibility(View.VISIBLE);
+            }
+        }
         return v;
     }
 
