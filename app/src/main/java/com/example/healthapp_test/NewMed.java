@@ -93,6 +93,7 @@ public class NewMed extends AppCompatActivity {
         schedule.putExtra("Previous","Meditation");
         //send all info gained and already with us
         schedule.putExtra("already_created",ac);
+
         schedule.putExtra("username",getIntent().getStringExtra("username"));
         schedule.putExtra("med_num", getIntent().getIntExtra("med_num",0));
 

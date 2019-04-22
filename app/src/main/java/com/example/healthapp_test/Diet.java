@@ -30,26 +30,22 @@ public class Diet extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //make list of previous diets
-        SharedPreferences sp = getSharedPreferences("Goals", Context.MODE_PRIVATE);
-        int num_diet_goals = sp.getInt("num_diet_goals",0);
 
-        SharedPreferences spUser = getSharedPreferences("user_details", Context.MODE_PRIVATE);
-        System.out.println(spUser.getAll());
-
-
-
+        final String user = getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        ArrayList<Diet_Goal> savedDietGoals = currUser.diet_goals;
 
         //if we already have exercise goals made
-        if(num_diet_goals > 0) {
+        if(savedDietGoals.size() > 0) {
             ListView list = (ListView) findViewById(R.id.diet_goals);
             final ArrayList<Diet_Goal> diet_goals = new ArrayList<Diet_Goal>();
             final ArrayList<String> diet_goals_names = new ArrayList<String>();
             Gson gson = new Gson();
 
-            for(int i = 0;i<num_diet_goals;i++){
-                String name = "diet_goal"+i;
-                String json = sp.getString(name, "");
-                Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
+            for(int i = 0;i<savedDietGoals.size();i++){
+                Diet_Goal d = savedDietGoals.get(i);
                 diet_goals.add(d);
                 diet_goals_names.add(d.getDiet_name());
             }
@@ -66,8 +62,9 @@ public class Diet extends AppCompatActivity {
                     Diet_Goal chosen_goal = diet_goals.get(position);
                     Intent new_diet = new Intent(view.getContext(),Meal.class);
                     new_diet.putExtra("already_created",true);
-                    new_diet.putExtra("diet_num","diet_goal"+position);
-                    new_diet.putExtra("diet_plan_name", chosen_goal.getDiet_name());
+                    new_diet.putExtra("diet_num",position);
+                    new_diet.putExtra("username", user);
+
                     startActivity(new_diet);
 
                 }
@@ -76,8 +73,21 @@ public class Diet extends AppCompatActivity {
     }
 
     public void new_diet(View view){
+        Diet_Goal newDietGoal = new Diet_Goal();
+        Gson userGson = new Gson();
+        String user = getIntent().getStringExtra("username");
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        currUser.diet_goals.add(newDietGoal);
+        int pos = currUser.diet_goals.size()-1;
+        SharedPreferences.Editor spEditor = sp.edit();
+        String json = userGson.toJson(currUser);
+        spEditor.putString(user,json);
+        spEditor.commit();
         Intent new_diet = new Intent(this,DietPlan.class);
         new_diet.putExtra("already_created",false);
+        new_diet.putExtra("diet_num",pos);
+        new_diet.putExtra("username", user);
         startActivity(new_diet);
     }
 
