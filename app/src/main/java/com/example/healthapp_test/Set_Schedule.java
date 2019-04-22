@@ -313,28 +313,15 @@ public class Set_Schedule extends AppCompatActivity {
 
         }
         else if(prev_act.equals("Meditation")){
-            Meditation_Goal med = new Meditation_Goal();
-            med.setMed_name(intent.getStringExtra("med_plan_name"));
-            med.setMed_type(intent.getIntExtra("med_type",0));
+            int pos = getIntent().getIntExtra("med_num",0);
+            Meditation_Goal med = currUser.med_goals.get(pos);
             med.days = schedule_days;
             med.setTime(new Time(hour,minute,0));
-
-            if(ac){
-                int pos = getIntent().getIntExtra("med_num",0);
-                currUser.med_goals.remove(pos);
-                currUser.med_goals.add(pos,med);
-                String json = gson.toJson(currUser);
-                prefsEditor.putString(user,json);
-                prefsEditor.commit();
-            }
-            else{
-                currUser.med_goals.add(med);
-                String json = gson.toJson(currUser);
-                prefsEditor.putString(user,json);
-                prefsEditor.commit();
-
-            }
-
+            currUser.med_goals.remove(pos);
+            currUser.med_goals.add(pos,med);
+            String json = gson.toJson(currUser);
+            prefsEditor.putString(user,json);
+            prefsEditor.commit();
         }
 
 
