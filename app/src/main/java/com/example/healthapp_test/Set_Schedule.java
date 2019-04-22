@@ -184,11 +184,12 @@ public class Set_Schedule extends AppCompatActivity {
 
         }
         else if(prev_act.equals("Exercise")){
-            //get object we are adjusting
-            String saved_goal = intent.getStringExtra("saved_ex");
-            String json = sharedPref.getString(saved_goal, "");
+            SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
             Gson gson = new Gson();
-            Exercise_Goal eg = gson.fromJson(json, Exercise_Goal.class);
+            UserDetails currUser = gson.fromJson(sp.getString(user,""), UserDetails.class);
+            ArrayList<Exercise_Goal> savedExGoals = currUser.ex_goals;
+            int saved_goal = intent.getIntExtra("ex_num",0);
+            Exercise_Goal eg = savedExGoals.get(saved_goal);
             //get days it is previously set to
             days = eg.days;
             hours = eg.getTime().getHours();
@@ -308,21 +309,21 @@ public class Set_Schedule extends AppCompatActivity {
 
             // if already created exercise, just change item at position
             if(ac){
-                String saved_ex = intent.getStringExtra("saved_ex");
-                String json_back = gson.toJson(eg);
-                prefsEditor.putString(saved_ex, json_back);
+                int pos = getIntent().getIntExtra("ex_num",0);
+                currUser.ex_goals.remove(pos);
+                currUser.ex_goals.add(pos,eg);
+                String json = gson.toJson(currUser);
+                prefsEditor.putString(user,json);
                 prefsEditor.commit();
 
             }
             // otherwise, add new item to shared preferences - ex_goal#
             else{
-                String json = gson.toJson(eg);
-                int num_ex_goal = sharedPref.getInt("num_ex_goals",0);
-                String name = "exercise_goal"+num_ex_goal;
-                prefsEditor.putString(name, json);
-                num_ex_goal++;
-                prefsEditor.putInt("num_ex_goals",num_ex_goal);
+                currUser.ex_goals.add(eg);
+                String json = gson.toJson(currUser);
+                prefsEditor.putString(user,json);
                 prefsEditor.commit();
+
 
             }
 

@@ -17,6 +17,8 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 public class NewEx extends AppCompatActivity {
 
     public static String ex_type;
@@ -55,18 +57,21 @@ public class NewEx extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
+        final String user = getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        final ArrayList<Exercise_Goal> savedExGoals = currUser.ex_goals;
         ac = intent.getBooleanExtra("already_created",false);
         if(ac){
-            SharedPreferences sharedPref = getSharedPreferences("Goals",Context.MODE_PRIVATE);
-            String saved_ex = intent.getStringExtra("saved_ex");
-            String json = sharedPref.getString(saved_ex, "");
-            Gson gson = new Gson();
-            Exercise_Goal e = gson.fromJson(json, Exercise_Goal.class);
+            int ex_num = intent.getIntExtra("ex_num",0);
+            Exercise_Goal ex = savedExGoals.get(ex_num);
+
 
             EditText et  = (EditText) findViewById(R.id.plan_name);
-            et.setText(e.getEx_name());
+            et.setText(ex.getEx_name());
 
-            if(e.getEx_type().equals("Cardio")) {
+            if(ex.getEx_type().equals("Cardio")) {
                 list.setItemChecked(0, true);
                 ex_type = "Cardio";
             }
@@ -89,8 +94,10 @@ public class NewEx extends AppCompatActivity {
        new_ex.putExtra("ex_type", ex_type);
        new_ex.putExtra("ex_name", plan_name);
        new_ex.putExtra("already_created",ac);
+       new_ex.putExtra("username",getIntent().getStringExtra("username"));
        if(ac) {
            Log.i("saved_ex - new",getIntent().getStringExtra("saved_ex"));
+           new_ex.putExtra("ex_num",getIntent().getStringExtra("ex_num"));
            new_ex.putExtra("saved_ex", getIntent().getStringExtra("saved_ex"));
        }
 

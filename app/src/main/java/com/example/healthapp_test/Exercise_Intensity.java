@@ -18,6 +18,8 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 public class Exercise_Intensity extends AppCompatActivity {
 
     public int ex_intensity;
@@ -65,15 +67,17 @@ public class Exercise_Intensity extends AppCompatActivity {
         });
 
         // if already created
+        final String user = intent.getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        final ArrayList<Exercise_Goal> savedExGoals = currUser.ex_goals;
         ac = intent.getBooleanExtra("already_created",false);
         if(ac){
-            SharedPreferences sharedPref = getSharedPreferences("Goals",Context.MODE_PRIVATE);
-            String saved_ex = intent.getStringExtra("saved_ex");
-            String json = sharedPref.getString(saved_ex, "");
-            Gson gson = new Gson();
-            Exercise_Goal e = gson.fromJson(json, Exercise_Goal.class);
-            list.setItemChecked(e.getEx_intensity(),true);
-            ex_intensity = e.getEx_intensity();
+            int ex_num = intent.getIntExtra("ex_num",0);
+            Exercise_Goal ex = savedExGoals.get(ex_num);
+            list.setItemChecked(ex.getEx_intensity(),true);
+            ex_intensity = ex.getEx_intensity();
 
         }
 
@@ -85,10 +89,14 @@ public class Exercise_Intensity extends AppCompatActivity {
         schedule.putExtra("ex_intensity",ex_intensity);
         schedule.putExtra("ex_name",ex_name);
         schedule.putExtra("already_created",ac);
+        schedule.putExtra("username",getIntent().getStringExtra("username"));
+
         //if already created, add name of exercise we stored in sharedPreferences
         if(ac) {
             Log.i("saved_ex - intensity",getIntent().getStringExtra("saved_ex"));
             schedule.putExtra("saved_ex", getIntent().getStringExtra("saved_ex"));
+            schedule.putExtra("ex_num",getIntent().getStringExtra("ex_num"));
+
         }
 
 
