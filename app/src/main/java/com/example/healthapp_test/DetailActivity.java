@@ -31,7 +31,15 @@ public class DetailActivity extends AppCompatActivity {
                 task_type.setText(textTask);
 
                 task_description = (TextView) findViewById(R.id.task_description);
-                String textDescription = "Diet plan that you have selected. Check the Goals tab to make changes.";
+                String textDescription = "Diet plan that you have selected:" +
+                        "\n" +
+                        "\n" +
+                        "Calories: 1800\n" +
+                        "Carbohydrates: 180\n" +
+                        "Protein: 180\n" +
+                        "Fats: 90\n" +
+                        "\n" +
+                        " Check the Goals tab to make changes.";
                 task_description.setText(textDescription);
 
             } else if(text.trim().equals("Exercise")){
@@ -50,7 +58,15 @@ public class DetailActivity extends AppCompatActivity {
                 task_type.setText(textTask);
 
                 task_description = (TextView) findViewById(R.id.task_description);
-                String textDescription = "Diet plan that you have selected. Check the Goals tab to make changes.";
+                String textDescription = "Diet plan that you have selected:" +
+                        "\n" +
+                        "\n" +
+                        "Calories: 1800\n" +
+                        "Carbohydrates: 180\n" +
+                        "Protein: 180\n" +
+                        "Fats: 90\n" +
+                        "\n" +
+                        " Check the Goals tab to make changes.";
                 task_description.setText(textDescription);
 
             } else if(text.trim().equals("Sleep")){
@@ -70,12 +86,9 @@ public class DetailActivity extends AppCompatActivity {
 
                 task_description = (TextView) findViewById(R.id.task_description);
                 String textDescription = "Meditation is an approach to training the mind, similar to the way that fitness is " +
-                        "an approach to training the body. But many meditation techniques " +
-                        "exist — so how do you learn how to meditate?\n" +
+                        "an approach to training the body.\n" +
                         "\n" +
-                        "“In Buddhist tradition, the word ‘meditation’ is equivalent to a word like ‘sports’ in the U.S. It’s a family " +
-                        "of activities, not a single thing,” University of Wisconsin neuroscience lab director Richard J. Davidson, Ph.D., " +
-                        "told The New York Times. And different meditation practices require different mental skills.";
+                        "You have selected the Beginner mode. Check the Goals tab to make changes. ";
                 task_description.setText(textDescription);
             }
         }
