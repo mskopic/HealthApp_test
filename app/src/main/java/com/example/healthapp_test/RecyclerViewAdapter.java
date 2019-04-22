@@ -2,11 +2,13 @@ package com.example.healthapp_test;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -174,6 +176,39 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     }
                 });
 
+                // Delete task
+                Button delete_btn = (Button) myDialog.findViewById(R.id.delete_btn);
+                delete_btn.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
+                        builder1.setMessage("Are you sure?");
+                        builder1.setCancelable(true);
+
+                        builder1.setPositiveButton(
+                                "Yes",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        removeAt(vHolder.getAdapterPosition());
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        builder1.setNegativeButton(
+                                "No",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        AlertDialog alert11 = builder1.create();
+                        alert11.show();
+                    myDialog.dismiss();
+                    }
+                });
+
                 // Close the current dialog box
                 Button dialog_btn_close = (Button) myDialog.findViewById(R.id.dialog_btn_close);
                 dialog_btn_close.setOnClickListener(new View.OnClickListener(){
@@ -182,12 +217,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         myDialog.dismiss();
                     }
                 });
+
                 myDialog.show();
             }
         });
         return vHolder;
     }
 
+    public void removeAt(int position) {
+        mData.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mData.size());
+    }
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         myViewHolder.tv_name.setText(mData.get(i).getName());

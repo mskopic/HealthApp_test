@@ -30,9 +30,9 @@ public class ScheduleTab extends Fragment {
 
     View v;
     private RecyclerView myRecyclerView;
+    private RecyclerView myRecyclerView1;
     private List<Schedule> firstContact;
-
-
+    private List<Schedule> secondContact;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,6 +81,8 @@ public class ScheduleTab extends Fragment {
         firstContact.add(new Schedule("Mood", "9:00pm", R.drawable.mood));
         firstContact.add(new Schedule("Sleep", "11:00pm", R.drawable.sleep));
 
+        secondContact = new ArrayList<>();
+        secondContact.add(new Schedule("Meditate", "9:00am", R.drawable.meditate));
     }
 
     @Override
@@ -92,6 +94,11 @@ public class ScheduleTab extends Fragment {
         RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(getContext(), firstContact);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecyclerView.setAdapter(recyclerAdapter);
+
+        myRecyclerView1 = (RecyclerView) v.findViewById(R.id.recyclerView1);
+        RecyclerViewAdapter recyclerAdapter1 = new RecyclerViewAdapter(getContext(), secondContact);
+        myRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
+        myRecyclerView1.setAdapter(recyclerAdapter1);
         return v;
     }
 
