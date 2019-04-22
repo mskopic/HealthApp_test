@@ -13,6 +13,11 @@
     <string name="title_activity_mood">Mood</string>
     <string name="title_activity_new_ex">NewEx</string>
 
+    <string name="trends_week">Week</string>
+    <string name="trends_month">Month</string>
+    <string name="trends_all_time">All Time</string>
+
+
 
     <string-array name="exercise_choices">
         <item>Cardio</item>

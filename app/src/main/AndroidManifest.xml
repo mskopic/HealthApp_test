@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".TrendsTab1"></activity>
         <activity
             android:name=".NewMeal"
             android:label="@string/title_activity_new_meal"
@@ -17,7 +18,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.healthapp_test.Meal" />
-
         </activity>
         <activity
             android:name=".Meal"
