@@ -50,7 +50,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="0dp">
 
             <ImageView
                 android:id="@+id/week_circles"
@@ -79,6 +80,13 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:src="@drawable/week_mood_time" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginBottom="20dp"
+                android:layout_below="@+id/week_mood_time_graph"
+                android:text="Tips:\nMood increases with the number of calories consumed. Reaching calorie goals may lead to better mood."/>
 
 
         </LinearLayout>
