@@ -119,15 +119,14 @@ public class Set_Schedule extends AppCompatActivity {
 
         //if we already have created this, get preferences
         boolean ac = intent.getBooleanExtra("already_created",false);
-       if(ac) {
-           if (prev_act.equals("Meal")) {
-               if (intent.getBooleanExtra("already_created_meal", false)) {
-                   addOldDays(prev_act);
-               }
-           } else {
+        if (prev_act.equals("Meal")) {
+            if (intent.getBooleanExtra("already_created_meal", false)) {
+                addOldDays(prev_act);
+            }
+        }else if(ac) {
                addOldDays(prev_act);
-           }
-       }
+        }
+
 
     }
 
