@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class DietPlan extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         //get plan_name
         plantext = findViewById(R.id.plan_name);
+        plan = -1;
 
 
 
@@ -84,6 +87,13 @@ public class DietPlan extends AppCompatActivity {
     }
 
     public void new_macros(View v){
+        if(plan == -1){
+            Context context = getApplicationContext();
+            CharSequence text = "You Must Select An Meal Plan To Continue";
+            Toast myToast = Toast.makeText(context,text, Toast.LENGTH_SHORT);
+            myToast.show();
+            return;
+        }
         plan_name = plantext.getText().toString();
 
         String user = getIntent().getStringExtra("username");

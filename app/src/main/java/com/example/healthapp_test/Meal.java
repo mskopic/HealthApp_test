@@ -117,7 +117,7 @@ public class Meal extends AppCompatActivity {
 
         Intent intent;
 
-        if(alreadyCreatedMeal){
+        if(!alreadyCreatedMeal){
             SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
             Gson userGson = new Gson();
             UserDetails currUser = userGson.fromJson(sp.getString(user, ""), UserDetails.class);
