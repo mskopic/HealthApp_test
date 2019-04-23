@@ -89,7 +89,8 @@ public class DietPlan extends AppCompatActivity {
     public void new_macros(View v){
         if(plan == -1){
             Context context = getApplicationContext();
-            CharSequence text = "You Must Select An Exercise Type To Continue";
+
+            CharSequence text = "You Must Select An Meal Plan To Continue";
             Toast myToast = Toast.makeText(context,text, Toast.LENGTH_SHORT);
             myToast.show();
             return;
@@ -112,7 +113,6 @@ public class DietPlan extends AppCompatActivity {
         String json = userGson.toJson(currUser);
         spEditor.putString(user,json);
         spEditor.commit();
-        Intent new_d = new Intent(this, DietMacros.class);
         //send all info gained and already with us
         new_d.putExtra("already_created",ac);
         new_d.putExtra("username",user);
