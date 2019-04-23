@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 public class DietPlan extends AppCompatActivity {
@@ -34,6 +36,7 @@ public class DietPlan extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         //get plan_name
         plantext = findViewById(R.id.plan_name);
+        plan = -1;
 
 
 
@@ -79,6 +82,14 @@ public class DietPlan extends AppCompatActivity {
     }
 
     public void new_macros(View v){
+        if(plan == -1){
+            Context context = getApplicationContext();
+            CharSequence text = "You Must Select An Exercise Type To Continue";
+            Toast myToast = Toast.makeText(context,text, Toast.LENGTH_SHORT);
+            myToast.show();
+            return;
+        }
+
         Intent new_d = new Intent(this, DietMacros.class);
         plan_name = plantext.getText().toString();
         //send all info gained and already with us
