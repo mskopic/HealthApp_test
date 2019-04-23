@@ -12,12 +12,15 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class DietMacros extends AppCompatActivity {
 
@@ -206,16 +209,16 @@ public class DietMacros extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        plan_name = intent.getStringExtra("diet_plan_name");
-        ac = getIntent().getBooleanExtra("already_created",false);
+        final String user = getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        final ArrayList<Diet_Goal> savedDietGoals = currUser.diet_goals;
+        ac = intent.getBooleanExtra("already_created",false);
         if(ac){
-            SharedPreferences sharedPref = getSharedPreferences("Goals", Context.MODE_PRIVATE);
-            //saved_diet is already made diet in json form
-            String saved_diet = intent.getStringExtra("diet_num");
-            Log.i("diet_num",saved_diet);
-            String json = sharedPref.getString(saved_diet, "");
-            Gson gson = new Gson();
-            Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
+            int diet_num = intent.getIntExtra("diet_num",0);
+            Diet_Goal d = savedDietGoals.get(diet_num);
+
             edit_cals.setText(d.getCalories());
             edit_lbs.setText(""+d.getLbs_week());
             edit_carbs.setText(d.getCarbs());
@@ -236,48 +239,62 @@ public class DietMacros extends AppCompatActivity {
         fat = Integer.parseInt(edit_fat.getText().toString());
 
         //create new diet
-        Diet_Goal d = new Diet_Goal();
-        d.setCalories(calories);
-        d.setCarbs(carbs);
-        d.setFat(fat);
-        d.setProtein(protein);
-        d.setLbs_week(lbs_week);
-        d.setDiet_name(plan_name);
-        d.setDiet_type(getIntent().getIntExtra("diet_type",0));
+        String user = getIntent().getStringExtra("username");
+        int diet_num = getIntent().getIntExtra("diet_num",0);
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        Gson userGson = new Gson();
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        Diet_Goal currGoal = currUser.diet_goals.get(diet_num);
 
-
-        //make new Diet_Goal, add to SharedPreferences as a new goal or edit of previous
-        SharedPreferences sp = getSharedPreferences("Goals", Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json_back = gson.toJson(d);
-        SharedPreferences.Editor prefsEditor = sp.edit();
-
+        currGoal.setCalories(calories);
+        currGoal.setCarbs(carbs);
+        currGoal.setFat(fat);
+        currGoal.setProtein(protein);
+        currGoal.setLbs_week(lbs_week);
+        currGoal.setDiet_name(plan_name);
+        currGoal.setDiet_type(getIntent().getIntExtra("diet_type",0));
+        currUser.diet_goals.remove(diet_num);
+        currUser.diet_goals.add(diet_num, currGoal);
 
         //go to meals
         Intent set_diet = new Intent(this, Meal.class);
-        set_diet.putExtra("diet_plan_name", plan_name);
-        set_diet.putExtra("previous","diet_macros");
-        // if an edit of a previous goal
-        if(ac){
-            String diet_num = getIntent().getStringExtra("diet_num");
-            prefsEditor.putString(diet_num, json_back);
-            prefsEditor.commit();
-            //let us know what diet we have when making meals
-            set_diet.putExtra("diet_num",diet_num);
+        set_diet.putExtra("already_created",ac);
+        set_diet.putExtra("username",user);
+        set_diet.putExtra("diet_num",diet_num);
 
-        }
-        //otherwise this a new diet, update number of diets
-        else{
-            int num_diet_goals = sp.getInt("num_diet_goals",0);
-            prefsEditor.putString("diet_goal"+num_diet_goals, json_back);
-            prefsEditor.putInt("num_diet_goals", num_diet_goals+1);
-            //let us know what diet we have when making meals
-            set_diet.putExtra("diet_num","diet_goal"+num_diet_goals);
-            prefsEditor.commit();
-        }
 
         startActivity(set_diet);
 
+    }
+
+    public void onBackPressed()
+    {
+        boolean alreadyCreated = getIntent().getBooleanExtra("already_created",false);
+        int diet_num = getIntent().getIntExtra("diet_num",0);
+        String user = getIntent().getStringExtra("username");
+
+        Intent intent = new Intent(this,DietPlan.class);
+        intent.putExtra("username",user);
+        intent.putExtra("diet_num",diet_num);
+        intent.putExtra("already_created",alreadyCreated);
+        startActivity(intent);
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

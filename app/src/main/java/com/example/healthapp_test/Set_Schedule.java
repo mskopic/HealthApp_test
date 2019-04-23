@@ -120,9 +120,14 @@ public class Set_Schedule extends AppCompatActivity {
 
         //if we already have created this, get preferences
         boolean ac = intent.getBooleanExtra("already_created",false);
-       if(ac){
-            addOldDays(prev_act);
+        if (prev_act.equals("Meal")) {
+            if (intent.getBooleanExtra("already_created_meal", false)) {
+                addOldDays(prev_act);
+            }
+        }else if(ac) {
+               addOldDays(prev_act);
         }
+
 
     }
 
@@ -152,6 +157,7 @@ public class Set_Schedule extends AppCompatActivity {
         new_class(prev_act);
         Intent done = new Intent(this,TabsActivity.class);
         done.putExtra("username", getIntent().getStringExtra("username"));
+        done.putExtra("med_to_sched", "true");
         startActivity(done);
     }
 
@@ -182,17 +188,21 @@ public class Set_Schedule extends AppCompatActivity {
         if(prev_act.equals("Sleep")){
         }
         else if(prev_act.equals("Meal")){
-            int saved_meal_position = intent.getIntExtra("saved_meal",0);
-            String diet_num = intent.getStringExtra("diet_num");
-            Log.i("diet_num",diet_num);
-            String json = sharedPref.getString(diet_num, "");
+            SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
             Gson gson = new Gson();
-            Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
-            Meal_Goal meal = d.meals.get(saved_meal_position);
+            UserDetails currUser = gson.fromJson(sp.getString(user,""), UserDetails.class);
+            ArrayList<Diet_Goal> savedDietGoals = currUser.diet_goals;
+            int diet_num = intent.getIntExtra("diet_num",0);
+            Diet_Goal d = savedDietGoals.get(diet_num);
+            int meal_num = intent.getIntExtra("meal_num",0);
+            Meal_Goal m = d.meals.get(meal_num);
             //get days it is previously set to
-            days = meal.days;
-            hours = meal.getTime().getHours();
-            minutes = meal.getTime().getMinutes();
+            if(intent.getBooleanExtra("already_created_meal",false)){
+                days = m.days;
+                hours = m.getTime().getHours();
+                minutes = m.getTime().getMinutes();
+            }
+
 
         }
         else if(prev_act.equals("Exercise")){
@@ -287,35 +297,22 @@ public class Set_Schedule extends AppCompatActivity {
         }
         else if(prev_act.equals("Meal")){
             //create meal
-            Meal_Goal me = new Meal_Goal();
-            me.setLow(intent.getIntExtra("low",0));
-            me.setHigh(intent.getIntExtra("high",0));
-            me.setName(intent.getStringExtra("name"));
-            me.setDiet(intent.getStringExtra("diet_num"));
-            Log.i("diet_num",intent.getStringExtra("diet_num"));
-            me.days = (schedule_days);
-            me.setTime(new Time(hour, minute, 0));
-            //get diet meal belongs to
-            String json = sharedPref.getString(me.getDiet(), "");
-            Log.i("meal.get_diet",me.getDiet());
-            Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
-            if(ac){
-                //set meal at position where old meal is to new meal with updates
-                int position = intent.getIntExtra("saved_meal",0);
-                d.meals.set(position,me);
-                //update value of diet according to its key
-                String json_back = gson.toJson(d);
-                prefsEditor.putString(me.getDiet(), json_back);
-                prefsEditor.commit();
-            }
-            else {
-                //add meal to diet
-                d.meals.add(me);
-                //update value of diet according to its key
-                String json_back = gson.toJson(d);
-                prefsEditor.putString(me.getDiet(), json_back);
-                prefsEditor.commit();
-            }
+            ArrayList<Diet_Goal> savedDietGoals = currUser.diet_goals;
+            int diet_num = intent.getIntExtra("diet_num",0);
+            Diet_Goal d = savedDietGoals.get(diet_num);
+            int meal_num = intent.getIntExtra("meal_num",0);
+            Meal_Goal m = d.meals.get(meal_num);
+            //Log.i("diet_num",intent.getStringExtra("diet_num"));
+            m.days = (schedule_days);
+            m.setTime(new Time(hour, minute, 0));
+            d.meals.remove(meal_num);
+            d.meals.add(meal_num,m);
+            currUser.diet_goals.remove(diet_num);
+            currUser.diet_goals.add(diet_num, d);
+            String json = gson.toJson(currUser);
+            prefsEditor.putString(user,json);
+            prefsEditor.commit();
+
         }
         else if(prev_act.equals("Exercise")){
             //create exercise
@@ -360,7 +357,20 @@ public class Set_Schedule extends AppCompatActivity {
             startActivity(intent);
         }
         else if(previous.equals("Meal")){
+            boolean alreadyCreatedMeal = getIntent().getBooleanExtra("already_created_meal",false);
+            boolean alreadyCreated = getIntent().getBooleanExtra("already_created",false);
+            int diet_num = getIntent().getIntExtra("diet_num",0);
+            String user = getIntent().getStringExtra("username");
+            int meal_num =  getIntent().getIntExtra("meal_num",0);
 
+            Intent intent = new Intent(this,NewMeal.class);
+            intent.putExtra("username",user);
+            intent.putExtra("diet_num",diet_num);
+            intent.putExtra("meal_num",meal_num);
+            intent.putExtra("already_created",alreadyCreated);
+            intent.putExtra("already_created_meal",alreadyCreatedMeal);
+
+            startActivity(intent);
         }
         else if(previous.equals("Meditation")){
             String user = getIntent().getStringExtra("username");

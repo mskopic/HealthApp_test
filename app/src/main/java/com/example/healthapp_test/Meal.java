@@ -31,32 +31,29 @@ public class Meal extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final String diet_name = getIntent().getStringExtra("diet_plan_name");
-        diet_num = getIntent().getStringExtra("diet_num");
-        getSupportActionBar().setTitle(diet_name + " Meals");
 
 
-        //get list of (possible) previous meals
-        SharedPreferences sp = getSharedPreferences("Goals", Context.MODE_PRIVATE);
-        SharedPreferences spUser = getSharedPreferences("user_details", Context.MODE_PRIVATE);
-        Gson newGson = new Gson();
-        UserDetails currUser = newGson.fromJson(spUser.getString("user","null"),UserDetails.class);
-        Gson gson = new Gson();
-        Intent currIntent = getIntent();
-        int curr_diet = currIntent.getIntExtra("diet_num",0);
-        Diet_Goal d = currUser.diet_goals.get(curr_diet);
-        final ArrayList<Meal_Goal> meal_goals = d.meals;
+        Intent intent = getIntent();
+        final String user = getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        ArrayList<Diet_Goal> savedDietGoals = currUser.diet_goals;
+        final int diet_num = intent.getIntExtra("diet_num",0);
+        Diet_Goal d = savedDietGoals.get(diet_num);
+        getSupportActionBar().setTitle(d.getDiet_name() + " Meals");
 
+        final ArrayList<Meal_Goal> savedMealGoals = d.meals;
 
         //if we already have meals made
-        if(meal_goals.size() > 0) {
+        if(savedMealGoals.size() > 0) {
             Log.i("are_meals","This Diet Has Meals");
             ListView list = (ListView) findViewById(R.id.my_meals);
             final ArrayList<String> meal_goals_names = new ArrayList<String>();
 
             //make listview of meal names
-            for(int i = 0;i<meal_goals.size();i++){
-                meal_goals_names.add(meal_goals.get(i).getName());
+            for(int i = 0;i<savedMealGoals.size();i++){
+                meal_goals_names.add(savedMealGoals.get(i).getName());
             }
 
             // list stuff - on click should take you to meal
@@ -67,12 +64,13 @@ public class Meal extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     // TODO Auto-generated method stub
-                    Meal_Goal chosen_goal = meal_goals.get(position);
+                    Meal_Goal chosen_goal = savedMealGoals.get(position);
                     Intent new_meal = new Intent(view.getContext(),NewMeal.class);
-                    new_meal.putExtra("already_created",true);
-                    new_meal.putExtra("saved_meal",position);
+                    new_meal.putExtra("already_created_meal",true);
+                    new_meal.putExtra("already_created",getIntent().getBooleanExtra("already_created",false));
                     new_meal.putExtra("diet_num",diet_num);
-                    new_meal.putExtra("diet_plan_name",diet_name);
+                    new_meal.putExtra("meal_num",position);
+                    new_meal.putExtra("username", user);
                     startActivity(new_meal);
 
                 }
@@ -85,9 +83,25 @@ public class Meal extends AppCompatActivity {
 
 
     public void new_meal(View v){
+        Gson userGson = new Gson();
+        String user = getIntent().getStringExtra("username");
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        int pos = getIntent().getIntExtra("diet_num",0);
+        Diet_Goal d = currUser.diet_goals.get(pos);
+        d.meals.add(new Meal_Goal());
+        int meal_num = d.meals.size()-1;
+        SharedPreferences.Editor spEditor = sp.edit();
+        String json = userGson.toJson(currUser);
+        spEditor.putString(user,json);
+        spEditor.commit();
+
         Intent new_meal = new Intent(this,NewMeal.class);
-        new_meal.putExtra("diet_num",diet_num);
-        new_meal.putExtra("diet_plan_name", getIntent().getStringExtra("diet_plan_name"));
+        new_meal.putExtra("already_created_meal",false);
+        new_meal.putExtra("already_created",getIntent().getStringExtra("already_created"));
+        new_meal.putExtra("diet_num",pos);
+        new_meal.putExtra("username", user);
+        new_meal.putExtra("meal_num",meal_num);
         startActivity(new_meal);
 
 
@@ -95,22 +109,35 @@ public class Meal extends AppCompatActivity {
 
     public void onBackPressed()
     {
+        boolean alreadyCreatedMeal = getIntent().getBooleanExtra("already_created_meal",false);
+        boolean alreadyCreated = getIntent().getBooleanExtra("already_created",false);
+        int diet_num = getIntent().getIntExtra("diet_num",0);
+        String user = getIntent().getStringExtra("username");
+        int meal_num =  getIntent().getIntExtra("meal_num",0);
 
-        String previous = getIntent().getStringExtra("previous");
         Intent intent;
-        if(previous != null && previous.equals("diet_macros")) {
-            intent = new Intent(this, DietMacros.class);
-            SharedPreferences sp = getSharedPreferences("Goals", Context.MODE_PRIVATE);
-            Gson gson = new Gson();
 
-
-            intent.putExtra("diet_num",diet_num);
-            intent.putExtra("already_created",true);
-            intent.putExtra("diet_plan_name", getIntent().getStringExtra("diet_plan_name"));
+        if(alreadyCreatedMeal){
+            SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+            Gson userGson = new Gson();
+            UserDetails currUser = userGson.fromJson(sp.getString(user, ""), UserDetails.class);
+            currUser.diet_goals.get(diet_num).meals.remove(meal_num);
+            SharedPreferences.Editor spEditor = sp.edit();
+            String json = userGson.toJson(currUser);
+            spEditor.putString(user, json);
+            spEditor.commit();
         }
-        else
+        if(!alreadyCreated){
+            intent = new Intent(this, DietMacros.class);
+            //send all info gained and already with us
+            intent.putExtra("already_created",alreadyCreated);
+            intent.putExtra("username",user);
+            intent.putExtra("diet_num",diet_num);
+        }else{
             intent = new Intent(this,Diet.class);
+            intent.putExtra("username",user);
 
+        }
         startActivity(intent);
     }
 

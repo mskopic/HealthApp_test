@@ -113,6 +113,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                             myDialog.dismiss();
                         }
 
+                        // Meditation
+                        if(value_name.trim().equals("Meditate") && value_task.trim().equals("INCOMPLETE")) {
+                            task_status.setText("COMPLETE");
+                            task_status.setTextColor(Color.parseColor("#33cc5a"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        } else if(value_name.trim().equals("Meditate") && value_task.trim().equals("COMPLETE")){
+                            task_status.setText("INCOMPLETE");
+                            task_status.setTextColor(Color.parseColor("#ff0006"));
+
+                            //dismiss dialog
+                            myDialog.dismiss();
+                        }
+
                         // Exercise
                         if(value_name.trim().equals("Exercise") && value_task.trim().equals("INCOMPLETE")) {
                             task_status.setText("COMPLETE");
