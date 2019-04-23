@@ -19,6 +19,8 @@ import android.widget.Spinner;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 public class NewMeal extends AppCompatActivity {
 
     public int low;
@@ -82,29 +84,35 @@ public class NewMeal extends AppCompatActivity {
         });
 
 
-        //if already created, fill in values
+        Intent intent = getIntent();
+        final String user = getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        final ArrayList<Diet_Goal> savedDietGoals = currUser.diet_goals;
+
+
         boolean ac = getIntent().getBooleanExtra("already_created",false);
         if(ac){
             //if already created, get the meal we already created
-            SharedPreferences sp = getSharedPreferences("Goals", Context.MODE_PRIVATE);
-            Gson gson = new Gson();
-            String diet_num = getIntent().getStringExtra("diet_num");
-            String json = sp.getString(diet_num, "");
-            Diet_Goal d = gson.fromJson(json, Diet_Goal.class);
-            Meal_Goal current_meal = d.meals.get(getIntent().getIntExtra("saved_meal",0));
+            int diet_num = intent.getIntExtra("diet_num",0);
+            Diet_Goal d = savedDietGoals.get(diet_num);
+            int meal_num = intent.getIntExtra("meal_num",0);
+            Meal_Goal m = d.meals.get(meal_num);
 
-            //set text of fields to values of created meal
             spinner2.setSelection(3,true);
             EditText editl = findViewById(R.id.low);
             EditText edith = findViewById(R.id.high);
-
-            editl.setText(current_meal.getLow()+"");
-            edith.setText(current_meal.getHigh()+"");
-
-
             EditText editname = findViewById(R.id.meal_name);
-            editname.setText(current_meal.getName());
 
+
+
+            if(getIntent().getBooleanExtra("already_created_meal",false)){
+                editl.setText(m.getLow()+"");
+                edith.setText(m.getHigh()+"");
+
+                editname.setText(m.getName());
+            }
 
         }
 
@@ -122,19 +130,37 @@ public class NewMeal extends AppCompatActivity {
         EditText editlow = findViewById(R.id.low);
         EditText edithigh = findViewById(R.id.high);
 
+        intent = getIntent();
+        final String user = getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        final ArrayList<Diet_Goal> savedDietGoals = currUser.diet_goals;
+        int diet_num = intent.getIntExtra("diet_num",0);
+        Diet_Goal d = savedDietGoals.get(diet_num);
+        int meal_num = intent.getIntExtra("meal_num",0);
+        Meal_Goal m = d.meals.get(meal_num);
+
         name = editText.getText().toString();
         low = Integer.parseInt(editlow.getText().toString());
         high = Integer.parseInt(edithigh.getText().toString());
 
-        String diet_num = intent.getStringExtra("diet_num");
-        int meal_num = intent.getIntExtra("saved_meal",0);
-
+        m.setName(name);
+        m.setLow(low);
+        m.setHigh(high);
+        d.meals.remove(meal_num);
+        d.meals.add(meal_num,m);
+        currUser.diet_goals.remove(diet_num);
+        currUser.diet_goals.add(diet_num, d);
+        SharedPreferences.Editor spEditor = sp.edit();
+        String json = userGson.toJson(currUser);
+        spEditor.putString(user,json);
+        spEditor.commit();
+        schedule.putExtra("already_created_meal",getIntent().getStringExtra("already_created_meal"));
+        schedule.putExtra("already_created",getIntent().getStringExtra("already_created"));
         schedule.putExtra("diet_num",diet_num);
-        schedule.putExtra("low",low);
-        schedule.putExtra("high",high);
-        schedule.putExtra("name",name);
-        schedule.putExtra("already_created",getIntent().getBooleanExtra("already_created",false));
-        schedule.putExtra("saved_meal",meal_num);
+        schedule.putExtra("username", user);
+        schedule.putExtra("meal_num",meal_num);
         startActivity(schedule);
 
     }
