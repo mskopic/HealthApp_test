@@ -24,27 +24,43 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="336dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"></android.support.v7.widget.RecyclerView>
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="223dp"></android.support.v7.widget.RecyclerView>
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/recyclerView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="155dp"
-        android:layout_marginLeft="155dp"
-        android:layout_marginTop="277dp"
-        android:layout_marginEnd="168dp"
-        android:layout_marginRight="168dp"
-        android:layout_marginBottom="45dp"
-        android:text="LOG OUT" />
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="440dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="72dp"
+        android:visibility="invisible"
+        />
 
+    <TextView
+        android:id="@+id/future_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="460dp"
+        android:visibility="invisible"
+        android:text="May 24, 2019" />
 
+    <View
+        android:id="@+id/future_view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="480dp"
+        android:visibility="invisible"
+        android:background="#cbcbcb" />
 </RelativeLayout>

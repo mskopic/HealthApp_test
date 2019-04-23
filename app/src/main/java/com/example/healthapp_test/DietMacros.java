@@ -217,6 +217,7 @@ public class DietMacros extends AppCompatActivity {
         if(ac){
             int diet_num = intent.getIntExtra("diet_num",0);
             Diet_Goal d = savedDietGoals.get(diet_num);
+
             edit_cals.setText(d.getCalories());
             edit_lbs.setText(""+d.getLbs_week());
             edit_carbs.setText(d.getCarbs());
@@ -259,6 +260,7 @@ public class DietMacros extends AppCompatActivity {
         set_diet.putExtra("already_created",ac);
         set_diet.putExtra("username",user);
         set_diet.putExtra("diet_num",diet_num);
+
 
         startActivity(set_diet);
 

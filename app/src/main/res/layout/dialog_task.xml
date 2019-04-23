@@ -46,9 +46,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:text="CHECK/UNCHECK"
+            android:text="COMPLETE/INCOMPLETE"
             android:layout_marginTop="2dp"
             android:id="@+id/dialog_complete"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:text="Delete task"
+            android:layout_marginTop="2dp"
+            android:id="@+id/delete_btn"
             />
         <Button
             android:id="@+id/dialog_btn_close"

@@ -31,16 +31,25 @@ public class DetailActivity extends AppCompatActivity {
                 task_type.setText(textTask);
 
                 task_description = (TextView) findViewById(R.id.task_description);
-                String textDescription = "Diet plan that you have selected. Check the Goals tab to make changes.";
+                String textDescription = "Diet plan that you have selected:" +
+                        "\n" +
+                        "\n" +
+                        "Calories: 1800\n" +
+                        "Carbohydrates: 180\n" +
+                        "Protein: 180\n" +
+                        "Fats: 90\n" +
+                        "\n" +
+                        " Check the Goals tab to make changes.";
                 task_description.setText(textDescription);
 
             } else if(text.trim().equals("Exercise")){
                 task_type = (TextView) findViewById(R.id.task_type);
-                String textTask = "Exercise Plan: Yoga";
+                String textTask = "Exercise Plan: Cardio";
                 task_type.setText(textTask);
 
                 task_description = (TextView) findViewById(R.id.task_description);
-                String textDescription = "Yoga plan that you have selected. Check the Goals tab to make changes.";
+                String textDescription = "You have selected the 10+ mph intense training routine. " +
+                        "Check the Goals tab to make changes.";
                 task_description.setText(textDescription);
 
             } else if(text.trim().equals("Dinner")){
@@ -49,7 +58,15 @@ public class DetailActivity extends AppCompatActivity {
                 task_type.setText(textTask);
 
                 task_description = (TextView) findViewById(R.id.task_description);
-                String textDescription = "Diet plan that you have selected. Check the Goals tab to make changes.";
+                String textDescription = "Diet plan that you have selected:" +
+                        "\n" +
+                        "\n" +
+                        "Calories: 1800\n" +
+                        "Carbohydrates: 180\n" +
+                        "Protein: 180\n" +
+                        "Fats: 90\n" +
+                        "\n" +
+                        " Check the Goals tab to make changes.";
                 task_description.setText(textDescription);
 
             } else if(text.trim().equals("Sleep")){
@@ -60,6 +77,18 @@ public class DetailActivity extends AppCompatActivity {
 
                 task_description = (TextView) findViewById(R.id.task_description);
                 String textDescription = "Sleep plan that you have selected. Check the Goals tab to make changes.";
+                task_description.setText(textDescription);
+            } else if(text.trim().equals("Meditate")){
+                task_type = (TextView) findViewById(R.id.task_type);
+                String textTask = "Meditation: Beginner";
+                task_type.setText(textTask);
+                // maybe set up an alarm
+
+                task_description = (TextView) findViewById(R.id.task_description);
+                String textDescription = "Meditation is an approach to training the mind, similar to the way that fitness is " +
+                        "an approach to training the body.\n" +
+                        "\n" +
+                        "You have selected the Beginner mode. Check the Goals tab to make changes. ";
                 task_description.setText(textDescription);
             }
         }

@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -104,6 +105,42 @@ public class Meal extends AppCompatActivity {
         startActivity(new_meal);
 
 
+    }
+
+    public void onBackPressed()
+    {
+
+        String previous = getIntent().getStringExtra("previous");
+        Intent intent;
+        if(previous != null && previous.equals("diet_macros")) {
+            intent = new Intent(this, DietMacros.class);
+            SharedPreferences sp = getSharedPreferences("Goals", Context.MODE_PRIVATE);
+            Gson gson = new Gson();
+
+
+            intent.putExtra("diet_num",diet_num);
+            intent.putExtra("already_created",true);
+            intent.putExtra("diet_plan_name", getIntent().getStringExtra("diet_plan_name"));
+        }
+        else
+            intent = new Intent(this,Diet.class);
+
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

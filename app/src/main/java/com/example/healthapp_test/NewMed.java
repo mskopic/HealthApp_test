@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -33,6 +35,7 @@ public class NewMed extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("New Meditation Goal");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        plan = -1;
 
         ListView list = (ListView) findViewById(R.id.meditation_choices);
         String[] listItem = getResources().getStringArray(R.array.meditation_choices);
@@ -67,11 +70,21 @@ public class NewMed extends AppCompatActivity {
             et.setText(med.getMed_name());
             //experiment
             list.setItemChecked(med.getMed_type(),true);
+            plan = med.getMed_type();
 
         }
     }
 
     public void set_schedule(View v){
+
+        if(plan == -1){
+            Context context = getApplicationContext();
+            CharSequence text = "You Must Select A Meditation Plan To Continue";
+            Toast myToast = Toast.makeText(context,text, Toast.LENGTH_SHORT);
+            myToast.show();
+            return;
+        }
+
         EditText editText = (EditText) findViewById(R.id.plan_name);
         plan_name = editText.getText().toString();
 
@@ -99,6 +112,45 @@ public class NewMed extends AppCompatActivity {
 
         startActivity(schedule);
 
+    }
+
+    public void onBackPressed()
+    {
+
+        String user = getIntent().getStringExtra("username");
+        int ex_num = getIntent().getIntExtra("med_num",0);
+
+        //if we are making a new goal, delete it since it was not finished
+        if(!(getIntent().getBooleanExtra("already_created",false))) {
+            SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+            Gson userGson = new Gson();
+            UserDetails currUser = userGson.fromJson(sp.getString(user, ""), UserDetails.class);
+            currUser.med_goals.remove(ex_num);
+            SharedPreferences.Editor spEditor = sp.edit();
+            String json = userGson.toJson(currUser);
+            spEditor.putString(user, json);
+            spEditor.commit();
+        }
+
+
+        Intent intent = new Intent(this,Exercise.class);
+        intent.putExtra("username",user);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

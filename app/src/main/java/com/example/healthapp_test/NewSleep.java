@@ -1,19 +1,24 @@
 package com.example.healthapp_test;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+
 public class NewSleep extends AppCompatActivity {
 
 
-    public String hours;
+    public int hours;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +33,7 @@ public class NewSleep extends AppCompatActivity {
 
     public void set_schedule(View v){
         EditText editText = (EditText) findViewById(R.id.hours_sleep);
-        hours = editText.getText().toString();
+        hours = Integer.parseInt(editText.getText().toString());
 
         Intent schedule = new Intent(this, Set_Schedule.class);
         schedule.putExtra("username",getIntent().getStringExtra("username"));
@@ -37,5 +42,6 @@ public class NewSleep extends AppCompatActivity {
         startActivity(schedule);
 
     }
+
 
 }

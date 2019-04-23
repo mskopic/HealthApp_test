@@ -1,6 +1,7 @@
 package com.example.healthapp_test;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -30,9 +32,9 @@ public class ScheduleTab extends Fragment {
 
     View v;
     private RecyclerView myRecyclerView;
+    private RecyclerView myRecyclerView1;
     private List<Schedule> firstContact;
-
-
+    private List<Schedule> secondContact;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,7 +46,7 @@ public class ScheduleTab extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private Intent prevIntent;
     public ScheduleTab() {
         // Required empty public constructor
     }
@@ -81,6 +83,9 @@ public class ScheduleTab extends Fragment {
         firstContact.add(new Schedule("Mood", "9:00pm", R.drawable.mood));
         firstContact.add(new Schedule("Sleep", "11:00pm", R.drawable.sleep));
 
+        secondContact = new ArrayList<>();
+        secondContact.add(new Schedule("Meditate", "9:00am", R.drawable.meditate));
+
     }
 
     @Override
@@ -92,6 +97,24 @@ public class ScheduleTab extends Fragment {
         RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(getContext(), firstContact);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecyclerView.setAdapter(recyclerAdapter);
+
+        myRecyclerView1 = (RecyclerView) v.findViewById(R.id.recyclerView1);
+        RecyclerViewAdapter recyclerAdapter1 = new RecyclerViewAdapter(getContext(), secondContact);
+        myRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
+        myRecyclerView1.setAdapter(recyclerAdapter1);
+
+        prevIntent = getActivity().getIntent();
+        String user = prevIntent.getStringExtra("med_to_sched");
+
+        if(user != null) {
+            if (user.trim().equals("med_to_sched") || user.trim().equals("true")) {
+                myRecyclerView1.setVisibility(View.VISIBLE);
+                View future_view = (View) v.findViewById(R.id.future_view);
+                future_view.setVisibility(View.VISIBLE);
+                TextView future_text_view = (TextView) v.findViewById(R.id.future_textview);
+                future_text_view.setVisibility(View.VISIBLE);
+            }
+        }
         return v;
     }
 

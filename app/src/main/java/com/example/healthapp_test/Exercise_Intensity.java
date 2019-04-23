@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -36,6 +37,7 @@ public class Exercise_Intensity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Exercise Intensity");
+        ex_intensity = -1;
 
 
         //get exercise type that was previously selected (Weight Training or Cardio)
@@ -81,6 +83,14 @@ public class Exercise_Intensity extends AppCompatActivity {
 
     }
     public void set_schedule(View v){
+        if(ex_intensity == -1){
+            Context context = getApplicationContext();
+            CharSequence text = "You Must Select An Exercise Intensity To Continue";
+            Toast myToast = Toast.makeText(context,text, Toast.LENGTH_SHORT);
+            myToast.show();
+            return;
+        }
+
         String user = getIntent().getStringExtra("username");
         int ex_num = getIntent().getIntExtra("ex_num",0);
         SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
@@ -104,6 +114,38 @@ public class Exercise_Intensity extends AppCompatActivity {
         startActivity(schedule);
 
     }
+
+
+    public void onBackPressed()
+    {
+
+        String user = getIntent().getStringExtra("username");
+        int ex_num = getIntent().getIntExtra("ex_num",0);
+        boolean ac = getIntent().getBooleanExtra("already_created",false);
+
+        Intent intent = new Intent(this,NewEx.class);
+        intent.putExtra("username",user);
+        intent.putExtra("ex_num",ex_num);
+        intent.putExtra("already_created",ac);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 
 
 }
