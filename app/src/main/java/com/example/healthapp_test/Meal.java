@@ -67,7 +67,7 @@ public class Meal extends AppCompatActivity {
                     Meal_Goal chosen_goal = savedMealGoals.get(position);
                     Intent new_meal = new Intent(view.getContext(),NewMeal.class);
                     new_meal.putExtra("already_created_meal",true);
-                    new_meal.putExtra("already_created",getIntent().getStringExtra("already_created"));
+                    new_meal.putExtra("already_created",getIntent().getBooleanExtra("already_created",false));
                     new_meal.putExtra("diet_num",diet_num);
                     new_meal.putExtra("meal_num",position);
                     new_meal.putExtra("username", user);

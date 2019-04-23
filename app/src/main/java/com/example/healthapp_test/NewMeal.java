@@ -156,8 +156,8 @@ public class NewMeal extends AppCompatActivity {
         String json = userGson.toJson(currUser);
         spEditor.putString(user,json);
         spEditor.commit();
-        schedule.putExtra("already_created_meal",getIntent().getStringExtra("already_created_meal"));
-        schedule.putExtra("already_created",getIntent().getStringExtra("already_created"));
+        schedule.putExtra("already_created_meal",getIntent().getBooleanExtra("already_created_meal",false));
+        schedule.putExtra("already_created",getIntent().getBooleanExtra("already_created",false));
         schedule.putExtra("diet_num",diet_num);
         schedule.putExtra("username", user);
         schedule.putExtra("meal_num",meal_num);
