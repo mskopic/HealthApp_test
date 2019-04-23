@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences user = getSharedPreferences("user_details",Context.MODE_PRIVATE);
         SharedPreferences.Editor userEdit = user.edit();
-        userEdit.clear().commit();
         Gson gson = new Gson();
         String s = user.getString("credentials", "null");
         if(s.equals("null")){
