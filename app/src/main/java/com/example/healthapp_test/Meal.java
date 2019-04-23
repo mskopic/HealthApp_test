@@ -109,22 +109,35 @@ public class Meal extends AppCompatActivity {
 
     public void onBackPressed()
     {
+        boolean alreadyCreatedMeal = getIntent().getBooleanExtra("already_created_meal",false);
+        boolean alreadyCreated = getIntent().getBooleanExtra("already_created",false);
+        int diet_num = getIntent().getIntExtra("diet_num",0);
+        String user = getIntent().getStringExtra("username");
+        int meal_num =  getIntent().getIntExtra("meal_num",0);
 
-        String previous = getIntent().getStringExtra("previous");
         Intent intent;
-        if(previous != null && previous.equals("diet_macros")) {
-            intent = new Intent(this, DietMacros.class);
-            SharedPreferences sp = getSharedPreferences("Goals", Context.MODE_PRIVATE);
-            Gson gson = new Gson();
 
-
-            intent.putExtra("diet_num",diet_num);
-            intent.putExtra("already_created",true);
-            intent.putExtra("diet_plan_name", getIntent().getStringExtra("diet_plan_name"));
+        if(alreadyCreatedMeal){
+            SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+            Gson userGson = new Gson();
+            UserDetails currUser = userGson.fromJson(sp.getString(user, ""), UserDetails.class);
+            currUser.diet_goals.get(diet_num).meals.remove(meal_num);
+            SharedPreferences.Editor spEditor = sp.edit();
+            String json = userGson.toJson(currUser);
+            spEditor.putString(user, json);
+            spEditor.commit();
         }
-        else
+        if(!alreadyCreated){
+            intent = new Intent(this, DietMacros.class);
+            //send all info gained and already with us
+            intent.putExtra("already_created",alreadyCreated);
+            intent.putExtra("username",user);
+            intent.putExtra("diet_num",diet_num);
+        }else{
             intent = new Intent(this,Diet.class);
+            intent.putExtra("username",user);
 
+        }
         startActivity(intent);
     }
 

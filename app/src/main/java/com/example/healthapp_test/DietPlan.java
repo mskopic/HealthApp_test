@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AbsListView;
@@ -108,6 +109,42 @@ public class DietPlan extends AppCompatActivity {
 
         startActivity(new_d);
 
+    }
+
+    public void onBackPressed() {
+        String user = getIntent().getStringExtra("username");
+        int diet_num = getIntent().getIntExtra("diet_num",0);
+
+        //if we are making a new goal, delete it since it was not finished
+        if(!(getIntent().getBooleanExtra("already_created",false))) {
+            SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+            Gson userGson = new Gson();
+            UserDetails currUser = userGson.fromJson(sp.getString(user, ""), UserDetails.class);
+            currUser.diet_goals.remove(diet_num);
+            SharedPreferences.Editor spEditor = sp.edit();
+            String json = userGson.toJson(currUser);
+            spEditor.putString(user, json);
+            spEditor.commit();
+        }
+
+
+        Intent intent = new Intent(this,Diet.class);
+        intent.putExtra("username",user);
+        startActivity(intent);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
