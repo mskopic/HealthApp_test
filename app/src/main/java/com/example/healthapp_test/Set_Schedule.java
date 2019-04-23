@@ -357,7 +357,20 @@ public class Set_Schedule extends AppCompatActivity {
             startActivity(intent);
         }
         else if(previous.equals("Meal")){
+            boolean alreadyCreatedMeal = getIntent().getBooleanExtra("already_created_meal",false);
+            boolean alreadyCreated = getIntent().getBooleanExtra("already_created",false);
+            int diet_num = getIntent().getIntExtra("diet_num",0);
+            String user = getIntent().getStringExtra("username");
+            int meal_num =  getIntent().getIntExtra("meal_num",0);
 
+            Intent intent = new Intent(this,NewMeal.class);
+            intent.putExtra("username",user);
+            intent.putExtra("diet_num",diet_num);
+            intent.putExtra("meal_num",meal_num);
+            intent.putExtra("already_created",alreadyCreated);
+            intent.putExtra("already_created_meal",alreadyCreatedMeal);
+
+            startActivity(intent);
         }
         else if(previous.equals("Meditation")){
             String user = getIntent().getStringExtra("username");

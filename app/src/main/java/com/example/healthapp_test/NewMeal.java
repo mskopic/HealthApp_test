@@ -168,15 +168,18 @@ public class NewMeal extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        String diet_num = getIntent().getStringExtra("diet_num");
-        int meal_num = getIntent().getIntExtra("saved_meal",0);
+        boolean alreadyCreatedMeal = getIntent().getBooleanExtra("already_created_meal",false);
+        boolean alreadyCreated = getIntent().getBooleanExtra("already_created",false);
+        int diet_num = getIntent().getIntExtra("diet_num",0);
+        String user = getIntent().getStringExtra("username");
+        int meal_num =  getIntent().getIntExtra("meal_num",0);
 
         Intent intent = new Intent(this,Meal.class);
+        intent.putExtra("username",user);
         intent.putExtra("diet_num",diet_num);
-        intent.putExtra("already_created",getIntent().getBooleanExtra("already_created",false));
-        intent.putExtra("saved_meal",meal_num);
-        intent.putExtra("diet_plan_name", getIntent().getStringExtra("diet_plan_name"));
-        Log.i("back pressed diet num",diet_num);
+        intent.putExtra("meal_num",meal_num);
+        intent.putExtra("already_created",alreadyCreated);
+        intent.putExtra("already_created_meal",alreadyCreatedMeal);
         startActivity(intent);
     }
 

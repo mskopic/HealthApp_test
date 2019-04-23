@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -264,6 +265,36 @@ public class DietMacros extends AppCompatActivity {
 
         startActivity(set_diet);
 
+    }
+
+    public void onBackPressed()
+    {
+        boolean alreadyCreated = getIntent().getBooleanExtra("already_created",false);
+        int diet_num = getIntent().getIntExtra("diet_num",0);
+        String user = getIntent().getStringExtra("username");
+
+        Intent intent = new Intent(this,DietPlan.class);
+        intent.putExtra("username",user);
+        intent.putExtra("diet_num",diet_num);
+        intent.putExtra("already_created",alreadyCreated);
+        startActivity(intent);
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
