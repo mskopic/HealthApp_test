@@ -41,9 +41,7 @@ public class MoodDetails extends AppCompatActivity {
 
             task_description = (TextView) findViewById(R.id.task_description);
             String textDescription = "Check in to see what your overall mood was for today. \n\n" +
-                    "You can select between one star (Very Bad) to five stars (Very Good). " +
-                    "Type in the optional comment box below to elaborate more on why you selected " +
-                    "that particular rating. Press the submit button after completing the form";
+                    "Select your rating and type in an optional comment about your mood.";
             task_description.setText(textDescription);
         }
         rb = (RatingBar) findViewById(R.id.ratingBar);
