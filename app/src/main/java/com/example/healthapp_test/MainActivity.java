@@ -11,11 +11,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -74,14 +76,18 @@ public class MainActivity extends AppCompatActivity {
         String p = password.getText().toString();
 
         if(u.isEmpty()||p.isEmpty()){
-            TextView error = findViewById(R.id.error);
-            error.setText("Invalid Login. Please Enter All Fields!");
-            error.setTextColor(Color.RED);
+            Context context = getApplicationContext();
+            CharSequence text = "Invalid Login. Please Enter All Fields!";
+            Toast myToast = Toast.makeText(context,text, Toast.LENGTH_SHORT);
+            myToast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 200);
+            myToast.show();
 
         }else if(!creds.containsKey(u)){
-            TextView error = findViewById(R.id.error);
-            error.setText("Invalid Login. Username not found!");
-            error.setTextColor(Color.RED);
+            Context context = getApplicationContext();
+            CharSequence text = "Invalid Login. Username not found!";
+            Toast myToast = Toast.makeText(context,text, Toast.LENGTH_SHORT);
+            myToast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 200);
+            myToast.show();
 
         }else if(!creds.get(u).equals(p)){
             TextView error = findViewById(R.id.error);
@@ -107,41 +113,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signup(View view) {
-        SharedPreferences user = getSharedPreferences("user_details",Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        HashMap<String, String> creds = gson.fromJson(user.getString("credentials", ""),HashMap.class);
-
-        EditText username = findViewById(R.id.username);
-        EditText password = findViewById(R.id.password);
-
-        String u = username.getText().toString();
-        String p = password.getText().toString();
-
-        if(u.isEmpty()||p.isEmpty()){
-            TextView error = findViewById(R.id.error);
-            error.setText("Invalid Sign-up. Please Enter All Fields!");
-            error.setTextColor(Color.RED);
-        }else if(creds.containsKey(u)){
-            TextView error = findViewById(R.id.error);
-            error.setText("Invalid Sign-up. Username exists already!");
-            error.setTextColor(Color.RED);
-
-        }else{
-            SharedPreferences.Editor userEdit = user.edit();
-            creds.put(u.trim(),p.trim());
-            JsonObject trying = new JsonObject();
-            Set<Map.Entry<String, String>> cred = creds.entrySet();
-            Iterator credPut = cred.iterator();
-            while(credPut.hasNext()){
-                Map.Entry<String, String> currCreds = (Map.Entry<String, String>)credPut.next();
-                trying.addProperty(currCreds.getKey(),currCreds.getValue());
-            }
-            userEdit.putString("credentials",gson.toJson(trying));
-            userEdit.commit();
             Intent newIntent = new Intent(this,UserSignUp.class);
-            newIntent.putExtra("username", u.trim());
             startActivity(newIntent);
-        }
+
     }
 
 
