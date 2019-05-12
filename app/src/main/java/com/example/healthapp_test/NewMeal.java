@@ -141,6 +141,7 @@ public class NewMeal extends AppCompatActivity {
         int meal_num = intent.getIntExtra("meal_num",0);
         Meal_Goal m = d.meals.get(meal_num);
 
+
         name = editText.getText().toString();
         low = Integer.parseInt(editlow.getText().toString());
         high = Integer.parseInt(edithigh.getText().toString());

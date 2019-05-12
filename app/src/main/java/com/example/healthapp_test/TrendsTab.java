@@ -16,6 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.ImageView;
+//added 5/11
+import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.GridLayout.LayoutParams;
+import android.widget.ImageButton;
+import android.app.Dialog;
 
 import java.util.ArrayList;
 
@@ -45,6 +51,10 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
     private RadioButton weekly_but;
     private RadioButton monthly_but;
     private RadioButton all_time_but;
+    //added 5/11
+    private Button help_butt;
+    private PopupWindow pop_help;
+    private Context this_context;
 
     //final private ImageView imageView;
 
@@ -79,6 +89,8 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this_context = this.getContext();
+
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -87,12 +99,15 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
 
 
     }
-
+    public void setTip(CharSequence s) {
+        //Toast.makeText((Context)getContext(), s).show();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_trends_tab, container, false);
+        final View view_p = inflater.inflate(R.layout.trends_popup, container, false);
         final ArrayList<String> chartNames = new ArrayList<>();
         chartNames.add("Mood Over Time");
         chartNames.add("Sleep Goal Over Time");
@@ -104,7 +119,44 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
         weekly_but = view.findViewById(R.id.week_trend_but);
         monthly_but = view.findViewById(R.id.month_trend_but);
         all_time_but = view.findViewById(R.id.all_trend_but);
+        //added 5/11
+        help_butt = view.findViewById(R.id.trends_tips);
+        help_butt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
+                final Dialog dialog = new Dialog(this_context);
+                dialog.setContentView(R.layout.trends_popup);
+                ImageButton closeButton = (ImageButton) view_p.findViewById(R.id.ib_close);
+
+                // Set a click listener for the popup window close button
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Dismiss the popup window
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+                /*//Toast.makeText(this_context, "Help:\n").show();
+                pop_help = new PopupWindow(
+                        view_p,
+                        LayoutParams.WRAP_CONTENT,
+                        LayoutParams.WRAP_CONTENT
+                );
+
+                ImageButton closeButton = (ImageButton) view_p.findViewById(R.id.ib_close);
+
+                // Set a click listener for the popup window close button
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Dismiss the popup window
+                        pop_help.dismiss();
+                    }
+                });*/
+            }
+        });
 
         final ImageView imageView = (ImageView) view.findViewById(R.id.week_circles);
         final ImageView graphView = (ImageView) view.findViewById(R.id.week_mood_time_graph);
@@ -192,7 +244,7 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
                         }
                         break;
                     case 2:
-                        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
                         if (weekly_but.isChecked()) {
                             graphView.setImageResource(R.drawable.week_calories_mood);
                         } if (monthly_but.isChecked()) {
