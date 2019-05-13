@@ -2,6 +2,7 @@ package com.example.healthapp_test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.Gson;
 
 
 /**
@@ -71,14 +73,52 @@ public class ScheduleTab extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Intent prevIntent = getActivity().getIntent();
+        String user = prevIntent.getStringExtra("username");
+        Gson gson = new Gson();
+        SharedPreferences sp = this.getActivity().getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sp.edit();
+        UserDetails currUser = gson.fromJson(sp.getString(user,""), UserDetails.class);
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
         firstContact = new ArrayList<>();
         firstContact.add(new Schedule("Lunch", "2:00pm", R.drawable.diet));
-        firstContact.add(new Schedule("Exercise", "4:00pm", R.drawable.exercise));
+        if(currUser.ex_goals.size() == 0) {
+            firstContact.add(new Schedule("Exercise", "4:00pm", R.drawable.exercise));
+        }
+        else{
+            Exercise_Goal ex1 = currUser.ex_goals.get(0);
+            int hours = ex1.getTime().getHours();
+            int minutes = ex1.getTime().getMinutes();
+
+            String time;
+            if(hours > 12){
+                hours = hours - 12;
+                if(minutes == 0) {
+                    time = hours + ":" + minutes + "0"+"pm";
+                }
+                else{
+                    time = hours + ":" + minutes +"pm";
+                }
+            }
+            else{
+                time = hours+":"+minutes+"am";
+                if(minutes == 0) {
+                    time = hours + ":" + minutes + "0"+"am";
+                }
+                else{
+                    time = hours + ":" + minutes +"am";
+                }
+            }
+            String name = ex1.getEx_name();
+            firstContact.add(new Schedule(name, time, R.drawable.exercise));
+        }
         firstContact.add(new Schedule("Dinner", "7:00pm", R.drawable.diet));
         firstContact.add(new Schedule("Mood", "9:00pm", R.drawable.mood));
         firstContact.add(new Schedule("Sleep", "11:00pm", R.drawable.sleep));

@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 
 public class Set_Schedule extends AppCompatActivity {
@@ -132,6 +133,19 @@ public class Set_Schedule extends AppCompatActivity {
     }
 
     public void set_days(View v){
+
+        EditText editText = (EditText) findViewById(R.id.time);
+        String time_text = editText.getText().toString();
+        boolean valid_time = Pattern.matches("^((0?[1-9])|(1[0-2])):[0-5][0-9]$", time_text);
+        if(!valid_time){
+            Context context = getApplicationContext();
+            CharSequence text = "Please Enter A Valid Time";
+            Toast myToast = Toast.makeText(context,text, Toast.LENGTH_SHORT);
+            myToast.show();
+            return;
+        }
+
+
         //add all checked days to list
         SparseBooleanArray checked = list.getCheckedItemPositions();
         for (int i = 0; i < checked.size(); i++) {
