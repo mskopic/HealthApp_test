@@ -19,7 +19,6 @@
     <string name="trends_all_time">All Time</string>
 
 
-
     <string-array name="exercise_choices">
         <item>Cardio</item>
         <item>Weight Training</item>
