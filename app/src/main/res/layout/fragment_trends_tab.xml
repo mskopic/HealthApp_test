@@ -12,7 +12,7 @@
         android:id="@+id/timeButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -42,7 +42,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="78dp"
+        android:layout_marginTop="22dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="?" />
@@ -57,7 +57,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="181dp"
+        android:layout_marginTop="123dp"
         android:layout_marginBottom="0dp">
 
         <LinearLayout
@@ -117,7 +117,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="114dp"
+        android:layout_marginTop="58dp"
         android:text="Overview:"
         android:textSize="24sp"
         tools:text="Overview:" />
@@ -142,7 +142,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="31dp"
         android:layout_marginLeft="31dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="96dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:text=": Exercise"
@@ -170,7 +170,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="118dp"
         android:layout_marginLeft="118dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="96dp"
         android:layout_marginEnd="-75dp"
         android:layout_marginRight="-75dp"
         android:text=": Diet"
@@ -198,7 +198,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="196dp"
         android:layout_marginLeft="196dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="96dp"
         android:layout_marginEnd="-185dp"
         android:layout_marginRight="-185dp"
         android:text=": Meditation"
@@ -226,7 +226,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="299dp"
         android:layout_marginLeft="299dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="96dp"
         android:layout_marginEnd="-286dp"
         android:layout_marginRight="-286dp"
         android:text=": Sleep"
