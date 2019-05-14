@@ -94,6 +94,7 @@
                 android:layout_marginRight="40dp"
                 android:src="@drawable/week_mood_time" />
             <TextView
+                android:id="@+id/graph_tips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"

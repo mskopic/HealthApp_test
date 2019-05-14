@@ -19,6 +19,6 @@
         android:layout_centerInParent="true"
         android:layout_margin="30dp"
         android:textSize="18sp"
-        android:text="Help:\nCircles represent percentage of Complete Goals. Charts show health trends.\n(Tap outside this box to Exit)"/>
+        android:text="Help:\nCircles represent percentage of Complete Goals.\nCharts show health trends.\nTips section discusses trends in your health data.\n(Tap outside this box to Exit)"/>
 
 </RelativeLayout>

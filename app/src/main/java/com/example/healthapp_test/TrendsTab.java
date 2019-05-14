@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageView;
 //added 5/11
@@ -55,6 +56,7 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
     private Button help_butt;
     private PopupWindow pop_help;
     private Context this_context;
+    private TextView tips;
 
     //final private ImageView imageView;
 
@@ -120,6 +122,7 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
         monthly_but = view.findViewById(R.id.month_trend_but);
         all_time_but = view.findViewById(R.id.all_trend_but);
         //added 5/11
+        tips = view.findViewById(R.id.graph_tips);
         help_butt = view.findViewById(R.id.trends_tips);
         help_butt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -167,6 +170,7 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
                 String text = weekly_graphs.getSelectedItem().toString();
                 if (text == chartNames.get(0)) {
                     graphView.setImageResource(R.drawable.week_mood_time);
+                    tips.setText("Tips:\nYour mood has been above average (3) 100% of days this week.");
                 }
                 if (text == chartNames.get(1)) {
                     graphView.setImageResource(R.drawable.week_sleep_time);
@@ -182,6 +186,7 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
                 String text = weekly_graphs.getSelectedItem().toString();
                 if (text == chartNames.get(0)) {
                     graphView.setImageResource(R.drawable.month_mood_time);
+                    tips.setText("Tips:\nYour mood has been above average (3) 70% of days this month.");
                 }
                 if (text == chartNames.get(1)) {
                     graphView.setImageResource(R.drawable.month_sleep_time);
@@ -197,6 +202,7 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
                 String text = weekly_graphs.getSelectedItem().toString();
                 if (text == chartNames.get(0)) {
                     graphView.setImageResource(R.drawable.all_mood_time);
+                    tips.setText("Tips:\nYour mood has been above average (3) 71% of days since creating your health goals.");
                 }
                 if (text == chartNames.get(1)) {
                     graphView.setImageResource(R.drawable.all_sleep_time);
@@ -227,10 +233,13 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
                         //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
                         if (weekly_but.isChecked()) {
                             graphView.setImageResource(R.drawable.week_mood_time);
+                            tips.setText("Tips:\nYour mood has been above average (3) 100% of days this week.");
                         } if (monthly_but.isChecked()) {
                             graphView.setImageResource(R.drawable.all_mood_time);
+                            tips.setText("Tips:\nYour mood has been above average (3) 70% of days this month.");
                         } if (all_time_but.isChecked()) {
                             graphView.setImageResource(R.drawable.month_mood_time);
+                            tips.setText("Tips:\nYour mood has been above average (3) 71% of days since creating your health goals.");
                         }
                         break;
                     case 1:
@@ -242,9 +251,10 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
                         } if (all_time_but.isChecked()) {
                             graphView.setImageResource(R.drawable.all_sleep_time);
                         }
+                        tips.setText("Tips:\nMeeting all sleep goals could help complete other health goals. Consistent sleep is show to improve many areas of health!");
                         break;
                     case 2:
-                        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
                         if (weekly_but.isChecked()) {
                             graphView.setImageResource(R.drawable.week_calories_mood);
                         } if (monthly_but.isChecked()) {
@@ -252,6 +262,7 @@ public class TrendsTab extends Fragment implements AdapterView.OnItemSelectedLis
                         } if (all_time_but.isChecked()) {
                             graphView.setImageResource(R.drawable.all_calories_mood);
                         }
+                        tips.setText("Tips:\nMood increases with the number of calories consumed. Reaching calorie goals may lead to better mood.");
                         break;
                 }
             }
