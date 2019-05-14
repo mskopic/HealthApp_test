@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -25,7 +26,11 @@ public class DetailActivity extends AppCompatActivity {
             // fill in details depending on which task user chose (HARDCODED)
             TextView task_description;
             TextView task_type;
+            ImageView image_view;
+            image_view = (ImageView) findViewById(R.id.imageView);
             if(text.trim().equals("Lunch")){
+                image_view.setImageResource(R.drawable.diet);
+
                 task_type = (TextView) findViewById(R.id.task_type);
                 String textTask = "Diet Plan: Keto";
                 task_type.setText(textTask);
@@ -43,6 +48,8 @@ public class DetailActivity extends AppCompatActivity {
                 task_description.setText(textDescription);
 
             } else if(text.trim().equals("Exercise")){
+                image_view.setImageResource(R.drawable.exercise);
+
                 task_type = (TextView) findViewById(R.id.task_type);
                 String textTask = "Exercise Plan: Cardio";
                 task_type.setText(textTask);
@@ -53,6 +60,8 @@ public class DetailActivity extends AppCompatActivity {
                 task_description.setText(textDescription);
 
             } else if(text.trim().equals("Dinner")){
+                image_view.setImageResource(R.drawable.diet);
+
                 task_type = (TextView) findViewById(R.id.task_type);
                 String textTask = "Diet Plan: Keto";
                 task_type.setText(textTask);
@@ -70,6 +79,8 @@ public class DetailActivity extends AppCompatActivity {
                 task_description.setText(textDescription);
 
             } else if(text.trim().equals("Sleep")){
+                image_view.setImageResource(R.drawable.sleep);
+
                 task_type = (TextView) findViewById(R.id.task_type);
                 String textTask = "Sleep Plan: 8 hours";
                 task_type.setText(textTask);
@@ -79,6 +90,8 @@ public class DetailActivity extends AppCompatActivity {
                 String textDescription = "Sleep plan that you have selected. Check the Goals tab to make changes.";
                 task_description.setText(textDescription);
             } else if(text.trim().equals("Meditate")){
+                image_view.setImageResource(R.drawable.meditate);
+
                 task_type = (TextView) findViewById(R.id.task_type);
                 String textTask = "Meditation: Beginner";
                 task_type.setText(textTask);
