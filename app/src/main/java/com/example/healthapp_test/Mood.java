@@ -13,6 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
 public class Mood extends AppCompatActivity {
 
     public String time;
@@ -52,7 +56,31 @@ public class Mood extends AppCompatActivity {
 
             }
         });
+        final String user = getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        int hours = currUser.moodHr;
+        int minutes = currUser.moodMin;
+        if(hours!=100 && minutes!=100){
+            EditText texttime = findViewById(R.id.time);
+            time = texttime.getText().toString();
+            if(hours > 12) {
+                hours = hours - 12;
+                spinner2.setSelection(1,true);
 
+            }
+            else{
+                spinner2.setSelection(0,true);
+            }
+            if(minutes == 0) {
+                texttime.setText(hours + ":" + minutes+"0");
+            }
+            else{
+                texttime.setText(hours + ":" + minutes);
+            }
+
+        }
 
 
 
@@ -69,12 +97,19 @@ public class Mood extends AppCompatActivity {
         if(am == false){
             hour = hour + 12;
         }
-        SharedPreferences sharedPref = getSharedPreferences("Goals", Context.MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = sharedPref.edit();
-        prefsEditor.putInt("mood_hour",hour);
-        prefsEditor.putInt("mood_minute",minute);
+
+        final String user = getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = sp.edit();
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
+        currUser.moodHr = hour;
+        currUser.moodMin = minute;
+        String json = userGson.toJson(currUser);
+        prefsEditor.putString(user,json);
         prefsEditor.commit();
 
+        main.putExtra("username", user);
         startActivity(main);
 
 
