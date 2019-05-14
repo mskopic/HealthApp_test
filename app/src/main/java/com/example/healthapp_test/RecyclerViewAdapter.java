@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -105,12 +106,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView completed = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            completed.setText("MARK AS INCOMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("COMPLETE");
+                            status.setTextColor(Color.GREEN);
                         } else if(value_name.trim().equals("Lunch") && value_task.trim().equals("COMPLETE")){
                             task_status.setText("INCOMPLETE");
                             task_status.setTextColor(Color.parseColor("#ff0006"));
 
+
+
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView incompleted = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            incompleted.setText("MARK AS COMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("INCOMPLETE");
+                            status.setTextColor(Color.RED);
                         }
 
                         // Meditation
@@ -118,14 +135,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                             task_status.setText("COMPLETE");
                             task_status.setTextColor(Color.parseColor("#33cc5a"));
 
+
+
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView completed = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            completed.setText("MARK AS INCOMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("COMPLETE");
+                            status.setTextColor(Color.GREEN);
                         } else if(value_name.trim().equals("Meditate") && value_task.trim().equals("COMPLETE")){
                             task_status.setText("INCOMPLETE");
                             task_status.setTextColor(Color.parseColor("#ff0006"));
 
+
+
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView incompleted = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            incompleted.setText("MARK AS COMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("INCOMPLETE");
+                            status.setTextColor(Color.RED);
                         }
 
                         // Exercise
@@ -133,14 +168,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                             task_status.setText("COMPLETE");
                             task_status.setTextColor(Color.parseColor("#33cc5a"));
 
+
+
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView completed = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            completed.setText("MARK AS INCOMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("COMPLETE");
+                            status.setTextColor(Color.GREEN);
+
                         } else if(value_name.trim().equals("Exercise") && value_task.trim().equals("COMPLETE")){
                             task_status.setText("INCOMPLETE");
                             task_status.setTextColor(Color.parseColor("#ff0006"));
 
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView incompleted = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            incompleted.setText("MARK AS COMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("INCOMPLETE");
+                            status.setTextColor(Color.RED);
+
                         }
 
                         // Dinner
@@ -150,12 +203,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView completed = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            completed.setText("MARK AS INCOMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("COMPLETE");
+                            status.setTextColor(Color.GREEN);
                         } else if(value_name.trim().equals("Dinner") && value_task.trim().equals("COMPLETE")){
                             task_status.setText("INCOMPLETE");
                             task_status.setTextColor(Color.parseColor("#ff0006"));
 
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView incompleted = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            incompleted.setText("MARK AS COMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("INCOMPLETE");
+                            status.setTextColor(Color.RED);
                         }
 
                         // Mood
@@ -165,12 +232,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView completed = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            completed.setText("MARK AS INCOMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("COMPLETE");
+                            status.setTextColor(Color.GREEN);
                         } else if(value_name.trim().equals("Mood") && value_task.trim().equals("COMPLETE")){
                             task_status.setText("INCOMPLETE");
                             task_status.setTextColor(Color.parseColor("#ff0006"));
 
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView incompleted = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            incompleted.setText("MARK AS COMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("INCOMPLETE");
+                            status.setTextColor(Color.RED);
                         }
 
                         // Sleep
@@ -180,12 +261,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView completed = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            completed.setText("MARK AS INCOMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("COMPLETE");
+                            status.setTextColor(Color.GREEN);
                         } else if(value_name.trim().equals("Sleep") && value_task.trim().equals("COMPLETE")){
                             task_status.setText("INCOMPLETE");
                             task_status.setTextColor(Color.parseColor("#ff0006"));
 
                             //dismiss dialog
                             myDialog.dismiss();
+
+                            TextView incompleted = (TextView) myDialog.findViewById(R.id.dialog_complete);
+                            incompleted.setText("MARK AS COMPLETE");
+
+                            TextView status = (TextView) myDialog.findViewById(R.id.status);
+                            status.setText("INCOMPLETE");
+                            status.setTextColor(Color.RED);
                         }
 
                     }
@@ -225,7 +320,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 });
 
                 // Close the current dialog box
-                Button dialog_btn_close = (Button) myDialog.findViewById(R.id.dialog_btn_close);
+                ImageButton dialog_btn_close = (ImageButton) myDialog.findViewById(R.id.dialog_btn_close);
                 dialog_btn_close.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
