@@ -24,7 +24,7 @@ public class TabsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Find the view pager that will allow the user to swipe between fragments
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         // Create an adapter that knows which fragment should be shown on each page
         TabsAdapter adapter = new TabsAdapter(this, getSupportFragmentManager());
@@ -36,10 +36,29 @@ public class TabsActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        //tabLayout.addTab(tabLayout.newTab().setText("Schedule"));
+        //tabLayout.addTab(tabLayout.newTab().setText("Goals"));
+        //tabLayout.addTab(tabLayout.newTab().setText("Trends"));
+
+
+
+
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
         SharedPreferences sharedPref = getSharedPreferences("Goals",Context.MODE_PRIVATE);
         SharedPreferences sharedPrefs = getSharedPreferences("user_details",Context.MODE_PRIVATE);
-
-
 
     }
 
