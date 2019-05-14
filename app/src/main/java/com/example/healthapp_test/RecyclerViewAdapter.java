@@ -66,13 +66,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         if(value_name.trim().equals("Mood")){
 
                             TextView task_status = (TextView) vHolder.item_contact.findViewById(R.id.task_status);
-                            task_status.setText("COMPLETE");
-                            task_status.setTextColor(Color.parseColor("#33cc5a"));
+
 
                             Intent startIntent = new Intent(mContext, MoodDetails.class);
                             startIntent.putExtra("com.example.healthapp_test_DETAILS", " " + mData.get(vHolder.getAdapterPosition()).getName());
+                            task_status.setText("COMPLETE");
+                            task_status.setTextColor(Color.parseColor("#33cc5a"));
                             mContext.startActivity(startIntent);
                             myDialog.dismiss();
+
                         } else {
                             Intent startIntent = new Intent(mContext, DetailActivity.class);
                             startIntent.putExtra("com.example.healthapp_test_DETAILS", " " + mData.get(vHolder.getAdapterPosition()).getName());
