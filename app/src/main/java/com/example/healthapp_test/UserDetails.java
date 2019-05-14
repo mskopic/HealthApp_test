@@ -17,6 +17,8 @@ public class UserDetails {
     ArrayList<String> med_goals_names;
     ArrayList<Sleep_Goal> sleep_goals;
     ArrayList<String> sleep_goals_names;
+    int moodHr=100;
+    int moodMin=100;
 
 
     public UserDetails(String username, String password, String name, String dob, String gender, String weight){
@@ -34,6 +36,7 @@ public class UserDetails {
         this.med_goals_names = new ArrayList<String>();
         this.sleep_goals = new ArrayList<Sleep_Goal>();
         this.sleep_goals_names = new ArrayList<String>();
+
     }
 
     public UserDetails getCurr(String username){

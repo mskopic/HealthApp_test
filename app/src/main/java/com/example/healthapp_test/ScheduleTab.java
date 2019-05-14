@@ -2,6 +2,7 @@ package com.example.healthapp_test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,10 +15,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.w3c.dom.Text;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -76,15 +87,48 @@ public class ScheduleTab extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        final String user = getActivity().getIntent().getStringExtra("username");
+        Gson userGson = new Gson();
+        SharedPreferences sp = getActivity().getSharedPreferences("user_details", Context.MODE_PRIVATE);
+        UserDetails currUser = userGson.fromJson(sp.getString(user,""), UserDetails.class);
         firstContact = new ArrayList<>();
-        firstContact.add(new Schedule("Lunch", "2:00pm", R.drawable.diet));
-        firstContact.add(new Schedule("Exercise", "4:00pm", R.drawable.exercise));
-        firstContact.add(new Schedule("Dinner", "7:00pm", R.drawable.diet));
-        firstContact.add(new Schedule("Mood", "9:00pm", R.drawable.mood));
-        firstContact.add(new Schedule("Sleep", "11:00pm", R.drawable.sleep));
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK)-1;
+        DateFormat dateFormat = new SimpleDateFormat("h:mm a");
+        firstContact = new ArrayList<>();
+        for(Exercise_Goal i: currUser.ex_goals){
+            if(i.getDays().contains(day)){
+                firstContact.add(new Schedule(i.getEx_name(),dateFormat.format(i.getTime()),R.drawable.exercise));
+            }
+        }
+        for(Diet_Goal i: currUser.diet_goals){
+            for(Meal_Goal j: i.meals){
+                if(j.getDays().contains(day)){
+                    firstContact.add(new Schedule(j.getName(),dateFormat.format(j.getTime()),R.drawable.diet));
 
-        secondContact = new ArrayList<>();
-        secondContact.add(new Schedule("Meditate", "9:00am", R.drawable.meditate));
+                }
+            }
+        }
+        for(Meditation_Goal i: currUser.med_goals){
+            if(i.getDays().contains(day)){
+                firstContact.add(new Schedule(i.getMed_name(),dateFormat.format(i.getTime()),R.drawable.meditate));
+            }
+        }
+
+
+        for(Sleep_Goal i: currUser.sleep_goals){
+            if(i.getDays().contains(day)){
+                firstContact.add(new Schedule("Sleep",dateFormat.format(i.getAlarm())+ " Alarm",R.drawable.sleep));
+            }
+        }
+        int hour = currUser.moodHr;
+        int min = currUser.moodMin;
+
+        if(hour!=100&&min!=100){
+            firstContact.add(new Schedule("Mood",dateFormat.format(new Time(hour, min, 0)), R.drawable.mood));
+        }
+
+        Collections.sort(firstContact, new ScheduleComparator());
 
     }
 
@@ -154,5 +198,13 @@ public class ScheduleTab extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    static class ScheduleComparator implements Comparator<Schedule>
+    {
+        public int compare(Schedule i, Schedule j)
+        {
+            return i.getPhone().compareTo(j.getPhone());
+        }
     }
 }
