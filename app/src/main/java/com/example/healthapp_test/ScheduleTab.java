@@ -142,23 +142,10 @@ public class ScheduleTab extends Fragment {
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         myRecyclerView.setAdapter(recyclerAdapter);
 
-        myRecyclerView1 = (RecyclerView) v.findViewById(R.id.recyclerView1);
-        RecyclerViewAdapter recyclerAdapter1 = new RecyclerViewAdapter(getContext(), secondContact);
-        myRecyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myRecyclerView1.setAdapter(recyclerAdapter1);
-
         prevIntent = getActivity().getIntent();
         String user = prevIntent.getStringExtra("med_to_sched");
 
-        if(user != null) {
-            if (user.trim().equals("med_to_sched") || user.trim().equals("true")) {
-                myRecyclerView1.setVisibility(View.VISIBLE);
-                View future_view = (View) v.findViewById(R.id.future_view);
-                future_view.setVisibility(View.VISIBLE);
-                TextView future_text_view = (TextView) v.findViewById(R.id.future_textview);
-                future_text_view.setVisibility(View.VISIBLE);
-            }
-        }
+
         return v;
     }
 
